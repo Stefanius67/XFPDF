@@ -1,0 +1,45 @@
+{
+	"fontHeader" :		{ "name" : "Times", "style" : "B", "size" : 14 },
+	"fontSubject" :		{ "name" : "Times", "style" : "BI", "size" :  9 },
+	"fontFooter" :		{ "name" : "Arial", "style" : "I", "size" :  8 },
+	"fontColHeader" :	{ "name" : "Arial", "style" : "B", "size" : 10 },
+	"fontSubHeader" :	{ "name" : "Arial", "style" : "", "size" :  10 },
+	"fontRows" :		{ "name" : "Arial", "style" : "", "size" :   9 },
+	
+	"fltLineHeight" : 6.0,
+	
+	"strHeaderTextColor" : "#000000",
+	"strHeaderDrawColor" : "#404040",
+	
+	"strFooterTextColor" : "#000000",
+	"strFooterDrawColor" : "#404040",
+	
+	"strColHeaderTextColor" : "#fff",
+	"strColHeaderFillColor" : "#4F5B93",
+	
+	"strSubHeaderTextColor" : "#000000",
+	"strSubHeaderFillColor" : "#AAD",
+	
+	"strRowTextColor" : "#000000",
+	"strRowDrawColor" : "#404040",
+	"strRowFillColor" : "#CCF",
+	
+	"bStripped" : true,
+	"border" : 1,
+	
+	"bCalcTotals" : false,
+	"bPageTotals" : false,
+	"bCarryOver" : false,
+	"strTotals" : "",
+	"strPageTotals" : "",
+	"strCarryOver" : "",
+	
+	"strCharset" : "windows-1252//TRANSLIT",
+	"strLocale" : "en_US.utf8, en_US",
+	"strFormatDT" : "%c",
+	"strFormatD" : "%x",
+	"strFormatT" : "%X",
+	"iNumberDecimals" : 2,
+	"strNumberPrefix" : null,
+	"strNumberSuffix" : "%"
+}
