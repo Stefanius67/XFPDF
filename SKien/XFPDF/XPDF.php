@@ -605,7 +605,7 @@ class XPDF extends FPDF
     public function SetRowFont(string $strFontname, string $strStyle, int $iSize) : void
     {
         $this->fontRows     = new XPDFFont($strFontname, $strStyle, $iSize);
-        $this->SelectFont( $this->fontRows);
+        $this->SelectFont($this->fontRows);
     }
 
     /**
@@ -810,8 +810,6 @@ class XPDF extends FPDF
             return;
         }
         $this->RowInner($row);
-        
-        $a = $this->_SaveSettings();
         $this->PostRow($row);
         $this->_RestoreSettings($a);
     }
@@ -836,7 +834,8 @@ class XPDF extends FPDF
     public function StartGroup(string $strTotals, ?string $strHeader=null) : void
     {
         $this->strSubTotals = $strTotals;
-        for ($i=0; $i < count($this->aSubTotals); $i++) {
+        $iCount = count($this->aSubTotals);
+        for ($i=0; $i < $iCount; $i++) {
             $this->aSubTotals[$i] = 0.0;
         }
         if ($strHeader) {
@@ -876,9 +875,11 @@ class XPDF extends FPDF
      * Selects given font.
      * @param XPDFFont $font
      */
-    public function SelectFont(XPDFFont $font) : void
+    public function SelectFont(?XPDFFont $font) : void
     {
-        $this->SetFont($font->strFontname, $font->strStyle, $font->iSize);
+        if ($font !== null) {
+            $this->SetFont($font->strFontname, $font->strStyle, $font->iSize);
+        }
     }
     
     /**
@@ -1272,7 +1273,7 @@ class XPDF extends FPDF
      * @param array $row
      * @return bool    function must return false, if row should not be printed
      */
-    protected function IsRowVisible(array $row) : bool
+    protected function IsRowVisible(/** @scrutinizer ignore-unused */ array $row) : bool
     {
         return true;
     }
@@ -1287,7 +1288,7 @@ class XPDF extends FPDF
      * @param array $row
      * @return string
      */
-    protected function PreRow(array &$row) : string
+    protected function PreRow(/** @scrutinizer ignore-unused */ array &$row) : string
     {
         return '';
     }
@@ -1297,7 +1298,7 @@ class XPDF extends FPDF
      * To be overloaded in derived class
      * @param array $row
      */
-    protected function PostRow(array $row) : void
+    protected function PostRow(/** @scrutinizer ignore-unused */ array $row) : void
     {
     }
     
@@ -1308,7 +1309,7 @@ class XPDF extends FPDF
      * @param bool          $bFill  
      * @return string
      */
-    protected function Col(int $iCol, array $row, bool &$bFill) : string 
+    protected function Col(int $iCol, array $row, /** @scrutinizer ignore-unused */ bool &$bFill) : string 
     {
         $strCol  ='';
         switch($iCol) {
@@ -1326,7 +1327,7 @@ class XPDF extends FPDF
      * @param array $row
      * @return int
      */
-    protected function InternalLink(int $iCol, array $row) : int 
+    protected function InternalLink(/** @scrutinizer ignore-unused */ int $iCol, /** @scrutinizer ignore-unused */ array $row) : int 
     {
         return $this->AddLink();
     }
