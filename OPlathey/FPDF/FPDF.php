@@ -200,7 +200,7 @@ class FPDF
                 $this->k = 72;
                 break;
             default:
-                $this->Error('Incorrect unit: ' . $unit);
+                $this->error('Incorrect unit: ' . $unit);
                 break;
         }
         
@@ -220,7 +220,7 @@ class FPDF
             $this->w = $size[1];
             $this->h = $size[0];
         } else {
-            $this->Error('Incorrect orientation: ' . $orientation);
+            $this->error('Incorrect orientation: ' . $orientation);
         }
         $this->CurOrientation = $this->DefOrientation;
         $this->wPt = $this->w * $this->k;
@@ -254,7 +254,7 @@ class FPDF
      * @param float $top    Top margin.
      * @param float $right  Right margin. Default value is the left one.
      */
-    public function SetMargins(float $left, float $top, ?float $right=null) : void
+    public function setMargins(float $left, float $top, ?float $right=null) : void
     {
         // Set left, top and right margins
         $this->lMargin = $left;
@@ -270,7 +270,7 @@ class FPDF
      * If the current X-position gets out of page, it is brought back to the margin. 
      * @param float $margin Left margin.
      */
-    public function SetLeftMargin(float $margin) : void
+    public function setLeftMargin(float $margin) : void
     {
         // Set left margin
         $this->lMargin = $margin;
@@ -283,7 +283,7 @@ class FPDF
      * The method can be called before creating the first page.  
      * @param float $margin
      */
-    public function SetTopMargin(float $margin) : void
+    public function setTopMargin(float $margin) : void
     {
         // Set top margin
         $this->tMargin = $margin;
@@ -294,7 +294,7 @@ class FPDF
      * The method can be called before creating the first page. 
      * @param float $margin
      */
-    public function SetRightMargin(float $margin) : void
+    public function setRightMargin(float $margin) : void
     {
         // Set right margin
         $this->rMargin = $margin;
@@ -308,7 +308,7 @@ class FPDF
      * @param bool $auto    indicating if mode should be on or off. 
      * @param float $margin Distance from the bottom of the page. 
      */
-    public function SetAutoPageBreak(bool $auto, float $margin=0) : void
+    public function setAutoPageBreak(bool $auto, float $margin=0) : void
     {
         // Set auto page break mode and triggering margin
         $this->AutoPageBreak = $auto;
@@ -344,17 +344,17 @@ class FPDF
      *                              <li> 'defaul't: uses viewer default mode </li></ul>
      *                              Default value is default. 
      */
-    public function SetDisplayMode($zoom, string $layout='default') : void
+    public function setDisplayMode($zoom, string $layout='default') : void
     {
         // Set display mode in viewer
         if($zoom=='fullpage' || $zoom=='fullwidth' || $zoom=='real' || $zoom=='default' || !is_string($zoom))
             $this->ZoomMode = $zoom;
         else
-            $this->Error('Incorrect zoom display mode: '.$zoom);
+            $this->error('Incorrect zoom display mode: '.$zoom);
         if($layout=='single' || $layout=='continuous' || $layout=='two' || $layout=='default')
             $this->LayoutMode = $layout;
         else
-            $this->Error('Incorrect layout display mode: '.$layout);
+            $this->error('Incorrect layout display mode: '.$layout);
     }
 
     /**
@@ -366,7 +366,7 @@ class FPDF
      * <b>Note: the Zlib extension is required for this feature. If not present, compression will be turned off.</b> 
      * @param bool $compress
      */
-    public function SetCompression(bool $compress) : void
+    public function setCompression(bool $compress) : void
     {
         // Set page compression
         if(function_exists('gzcompress'))
@@ -380,7 +380,7 @@ class FPDF
      * @param string $title The title.
      * @param bool $isUTF8  Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false. 
      */
-    public function SetTitle(string $title, bool $isUTF8=false) : void
+    public function setTitle(string $title, bool $isUTF8=false) : void
     {
         // Title of document
         $this->metadata['Title'] = $isUTF8 ? $title : utf8_encode($title);
@@ -391,7 +391,7 @@ class FPDF
      * @param string $author
      * @param bool $isUTF8  Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
      */
-    public function SetAuthor(string $author, bool $isUTF8=false) : void
+    public function setAuthor(string $author, bool $isUTF8=false) : void
     {
         // Author of document
         $this->metadata['Author'] = $isUTF8 ? $author : utf8_encode($author);
@@ -402,7 +402,7 @@ class FPDF
      * @param string $subject
      * @param bool $isUTF8  Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
      */
-    public function SetSubject(string $subject, bool $isUTF8=false) : void
+    public function setSubject(string $subject, bool $isUTF8=false) : void
     {
         // Subject of document
         $this->metadata['Subject'] = $isUTF8 ? $subject : utf8_encode($subject);
@@ -413,7 +413,7 @@ class FPDF
      * @param string $keywords
      * @param bool $isUTF8  Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
      */
-    public function SetKeywords(string $keywords, bool $isUTF8=false) : void
+    public function setKeywords(string $keywords, bool $isUTF8=false) : void
     {
         // Keywords of document
         $this->metadata['Keywords'] = $isUTF8 ? $keywords : utf8_encode($keywords);
@@ -424,7 +424,7 @@ class FPDF
      * @param string $creator
      * @param bool $isUTF8  Indicates if the string is encoded in ISO-8859-1 (false) or UTF-8 (true). Default value: false.
      */
-    public function SetCreator(string $creator, bool $isUTF8=false) : void
+    public function setCreator(string $creator, bool $isUTF8=false) : void
     {
         // Creator of document
         $this->metadata['Creator'] = $isUTF8 ? $creator : utf8_encode($creator);
@@ -434,7 +434,7 @@ class FPDF
      * Defines an alias for the total number of pages. It will be substituted as the document is closed. 
      * @param string $alias The alias. Default value: {nb}. 
      */
-    public function AliasNbPages(string $alias='{nb}') : void
+    public function aliasNbPages(string $alias='{nb}') : void
     {
         // Define an alias for total number of pages
         $this->AliasNbPages = $alias;
@@ -448,7 +448,7 @@ class FPDF
      * @param string $msg The error message.
      * @throws \Exception
      */
-    public function Error(string $msg) : void
+    public function error(string $msg) : void
     {
         // Fatal error
         throw new \Exception('FPDF error: '.$msg);
@@ -460,7 +460,7 @@ class FPDF
      * automatically. If the document contains no page, AddPage() is called to prevent 
      * from getting an invalid document.
      */
-    public function Close() : void
+    public function close() : void
     {
         // Terminate document
         if($this->state==3)
@@ -469,7 +469,7 @@ class FPDF
             $this->addPage();
         // Page footer
         $this->InFooter = true;
-        $this->Footer();
+        $this->footer();
         $this->InFooter = false;
         // Close page
         $this->endPage();
@@ -505,11 +505,11 @@ class FPDF
      *                              It must be a multiple of 90; positive values mean clockwise rotation. </br>
      *                              The default value is 0.
      */
-    public function AddPage(string $orientation='', $size='', int $rotation=0) : void
+    public function addPage(string $orientation='', $size='', int $rotation=0) : void
     {
         // Start a new page
         if ($this->state == 3) {
-            $this->Error('The document is closed');
+            $this->error('The document is closed');
         }
         $family = $this->FontFamily;
         $style = $this->FontStyle . ($this->underline ? 'U' : '');
@@ -522,7 +522,7 @@ class FPDF
         if ($this->page > 0) {
             // Page footer
             $this->InFooter = true;
-            $this->Footer();
+            $this->footer();
             $this->InFooter = false;
             // Close page
             $this->endPage();
@@ -551,7 +551,7 @@ class FPDF
         $this->ColorFlag = $cf;
         // Page header
         $this->InHeader = true;
-        $this->Header();
+        $this->header();
         $this->InHeader = false;
         // Restore line width
         if ($this->LineWidth != $lw) {
@@ -581,7 +581,7 @@ class FPDF
      * application. The implementation in FPDF is empty, so you have to subclass it and 
      * override the method if you want a specific processing.
      */
-    public function Header() : void
+    public function header() : void
     {
         // To be implemented in your own inherited class
     }
@@ -592,7 +592,7 @@ class FPDF
      * directly by the application. The implementation in FPDF is empty, so you have to 
      * subclass it and override the method if you want a specific processing.
      */
-    public function Footer() : void
+    public function footer() : void
     {
         // To be implemented in your own inherited class
     }
@@ -601,7 +601,7 @@ class FPDF
      * Returns the current page number.
      * @return int
      */
-    public function PageNo() : int
+    public function pageNo() : int
     {
         // Get current page number
         return $this->page;
@@ -615,7 +615,7 @@ class FPDF
      * @param int $g    Green component (between 0 and 255).
      * @param int $b    Blue component (between 0 and 255).
      */
-    public function SetDrawColor(int $r, ?int $g=null, ?int $b=null) : void
+    public function setDrawColor(int $r, ?int $g=null, ?int $b=null) : void
     {
         // Set color for all stroking operations
         if (($r === 0 && $g === 0 && $b === 0) || $g === null) {
@@ -636,7 +636,7 @@ class FPDF
      * @param int $g    Green component (between 0 and 255).
      * @param int $b    Blue component (between 0 and 255).
      */
-    public function SetFillColor(int $r, ?int $g=null, ?int $b=null) : void
+    public function setFillColor(int $r, ?int $g=null, ?int $b=null) : void
     {
         // Set color for all filling operations
         if (($r === 0 && $g === 0 && $b === 0) || $g === null) {
@@ -658,7 +658,7 @@ class FPDF
      * @param int $g    Green component (between 0 and 255).
      * @param int $b    Blue component (between 0 and 255).
      */
-    public function SetTextColor(int $r, ?int $g=null, ?int $b=null) : void
+    public function setTextColor(int $r, ?int $g=null, ?int $b=null) : void
     {
         // Set color for text
         if (($r === 0 && $g === 0 && $b === 0) || $g === null) {
@@ -675,7 +675,7 @@ class FPDF
      * @param string $s The string whose length is to be computed.
      * @return float
      */
-    public function GetStringWidth(string $s) : float
+    public function getStringWidth(string $s) : float
     {
         // Get width of a string in the current font
         $s = (string)$s;
@@ -693,7 +693,7 @@ class FPDF
      * page is created and the value is retained from page to page.
      * @param float $width
      */
-    public function SetLineWidth(float $width) : void
+    public function setLineWidth(float $width) : void
     {
         // Set line width
         $this->LineWidth = $width;
@@ -710,7 +710,7 @@ class FPDF
      * @param float $x2     X-position lower right corner
      * @param float $y2     Y-position lower right corner
      */
-    public function Line(float $x1, float $y1, float $x2, float $y2) : void
+    public function line(float $x1, float $y1, float $x2, float $y2) : void
     {
         // Draw a line
         $this->out(sprintf('%.2F %.2F m %.2F %.2F l S',$x1*$this->k,($this->h-$y1)*$this->k,$x2*$this->k,($this->h-$y2)*$this->k));
@@ -731,7 +731,7 @@ class FPDF
      *                      <li>   'F': fill. </li>
      *                      <li>   'DF' or 'FD': draw the shape and fill. </li></ul>
      */
-    public function Rect(float $x, float $y, float $w, float $h, string $style='') : void
+    public function rect(float $x, float $y, float $w, float $h, string $style='') : void
     {
         // Draw a rectangle
         if($style=='F')
@@ -760,7 +760,7 @@ class FPDF
      * @param string $file      The font definition file. <br/>
      *                          By default, the name is built from the family and style, in lower case with no space.
      */
-    public function AddFont(string $family, string $style='', string $file='') : void
+    public function addFont(string $family, string $style='', string $file='') : void
     {
         // Add a TrueType, OpenType or Type1 font
         $family = strtolower($family);
@@ -820,7 +820,7 @@ class FPDF
      *                          The default value is the current size. <br/>
      *                          If no size has been specified since the beginning of the document, the value taken is 12.
      */
-    public function SetFont(string $family, string $style='', float $size=0) : void
+    public function setFont(string $family, string $style='', float $size=0) : void
     {
         // Select a font; size given in points
         if($family=='')
@@ -858,7 +858,7 @@ class FPDF
                     $this->addFont($family,$style);
             }
             else
-                $this->Error('Undefined font: '.$family.' '.$style);
+                $this->error('Undefined font: '.$family.' '.$style);
         }
         // Select it
         $this->FontFamily = $family;
@@ -874,15 +874,17 @@ class FPDF
      * Defines the size of the current font.
      * @param float $size   The size (in points).
      */
-    public function SetFontSize(float $size) : void
+    public function setFontSize(float $size) : void
     {
         // Set font size in points
-        if($this->FontSizePt==$size)
+        if ($this->FontSizePt == $size) {
             return;
+        }
         $this->FontSizePt = $size;
-        $this->FontSize = $size/$this->k;
-        if($this->page>0)
-            $this->out(sprintf('BT /F%d %.2F Tf ET',$this->CurrentFont['i'],$this->FontSizePt));
+        $this->FontSize = $size / $this->k;
+        if ($this->page > 0) {
+            $this->out(sprintf('BT /F%d %.2F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));
+        }
     }
     
     /**
@@ -892,10 +894,10 @@ class FPDF
      * The destination is defined with SetLink().
      * @return int
      */
-    public function AddLink() : int
+    public function addLink() : int
     {
         // Create a new internal link
-        $n = count($this->links)+1;
+        $n = count($this->links) + 1;
         $this->links[$n] = array(0, 0);
         return $n;
     }
@@ -906,13 +908,15 @@ class FPDF
      * @param float $y  Y-position of target position; -1 indicates the current position. The default value is 0 (top of page).
      * @param int $page Number of target page; -1 indicates the current page. This is the default value.
      */
-    public function SetLink(int $link, float $y=0, int $page=-1) : void
+    public function setLink(int $link, float $y=0, int $page=-1) : void
     {
         // Set destination of internal link
-        if($y==-1)
+        if ($y == -1) {
             $y = $this->y;
-        if($page==-1)
+        }
+        if ($page == -1) {
             $page = $this->page;
+        }
         $this->links[$link] = array($page, $y);
     }
     
@@ -927,7 +931,7 @@ class FPDF
      * @param float $h          Height
      * @param string|int $link  URL or link-ID
      */
-    public function Link(float $x, float $y, float $w, float $h, $link) : void
+    public function link(float $x, float $y, float $w, float $h, $link) : void
     {
         // Put a link on the page
         $this->PageLinks[$this->page][] = array($x*$this->k, $this->hPt-$y*$this->k, $w*$this->k, $h*$this->k, $link);
@@ -943,16 +947,19 @@ class FPDF
      * @param float $y      Y-position
      * @param string $txt   String to print.
      */
-    public function Text(float $x, float $y, string $txt) : void
+    public function text(float $x, float $y, string $txt) : void
     {
         // Output a string
-        if(!isset($this->CurrentFont))
-            $this->Error('No font has been set');
+        if (!isset($this->CurrentFont)) {
+            $this->error('No font has been set');
+        }
         $s = sprintf('BT %.2F %.2F Td (%s) Tj ET',$x*$this->k,($this->h-$y)*$this->k,$this->escape($txt));
-        if($this->underline && $txt!='')
-            $s .= ' '.$this->doUnderline($x,$y,$txt);
-        if($this->ColorFlag)
-            $s = 'q '.$this->TextColor.' '.$s.' Q';
+        if ($this->underline && $txt != '') {
+            $s .= ' ' . $this->doUnderline($x, $y, $txt);
+        }
+        if ($this->ColorFlag) {
+            $s = 'q ' . $this->TextColor . ' ' . $s . ' Q';
+        }
         $this->out($s);
     }
     
@@ -967,7 +974,7 @@ class FPDF
      * @link http://www.fpdf.org/en/doc/acceptpagebreak.htm
      * @return bool
      */
-    public function AcceptPageBreak() : bool
+    public function acceptPageBreak() : bool
     {
         // Accept automatic page break or not
         return $this->AutoPageBreak;
@@ -1010,84 +1017,91 @@ class FPDF
      *                          Default value: false. <br/>
      * @param string|int $link  URL or identifier for internal link created by AddLink().
      */
-    public function Cell(float $w, float $h=0, string $txt='', $border=0, float $ln=0, $align='', $fill=false, $link='') : void
+    public function cell(float $w, float $h = 0, string $txt = '', $border = 0, float $ln = 0, $align = '', $fill = false, $link = '') : void
     {
         // Output a cell
         $k = $this->k;
-        if($this->y+$h>$this->PageBreakTrigger && !$this->InHeader && !$this->InFooter && $this->AcceptPageBreak())
-        {
+        if ($this->y + $h > $this->PageBreakTrigger && !$this->InHeader && !$this->InFooter && $this->acceptPageBreak()) {
             // Automatic page break
             $x = $this->x;
             $ws = $this->ws;
-            if($ws>0)
-            {
+            if ($ws > 0) {
                 $this->ws = 0;
                 $this->out('0 Tw');
             }
-            $this->addPage($this->CurOrientation,$this->CurPageSize,$this->CurRotation);
+            $this->addPage($this->CurOrientation, $this->CurPageSize, $this->CurRotation);
             $this->x = $x;
-            if($ws>0)
-            {
+            if ($ws > 0) {
                 $this->ws = $ws;
-                $this->out(sprintf('%.3F Tw',$ws*$k));
+                $this->out(sprintf('%.3F Tw', $ws * $k));
             }
         }
-        if($w==0)
-            $w = $this->w-$this->rMargin-$this->x;
-        $s = '';
-        if($fill || $border==1)
-        {
-            if($fill)
-                $op = ($border==1) ? 'B' : 'f';
-            else
-                $op = 'S';
-            $s = sprintf('%.2F %.2F %.2F %.2F re %s ',$this->x*$k,($this->h-$this->y)*$k,$w*$k,-$h*$k,$op);
+        if ($w == 0) {
+            $w = $this->w - $this->rMargin - $this->x;
         }
-        if(is_string($border))
-        {
+        $s = '';
+        if ($fill || $border == 1) {
+            if ($fill) {
+                $op = ($border == 1) ? 'B' : 'f';
+            } else {
+                $op = 'S';
+            }
+            $s = sprintf('%.2F %.2F %.2F %.2F re %s ', $this->x * $k, ($this->h - $this->y) * $k, $w * $k, -$h * $k, $op);
+        }
+        if (is_string($border)) {
             $x = $this->x;
             $y = $this->y;
-            if(strpos($border,'L')!==false)
-                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-$y)*$k,$x*$k,($this->h-($y+$h))*$k);
-            if(strpos($border,'T')!==false)
-                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-$y)*$k);
-            if(strpos($border,'R')!==false)
-                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ',($x+$w)*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
-            if(strpos($border,'B')!==false)
-                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-($y+$h))*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
+            if (strpos($border, 'L') !== false) {
+                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, $x * $k, ($this->h - ($y + $h)) * $k);
+            }
+            if (strpos($border, 'T') !== false) {
+                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - $y) * $k);
+            }
+            if (strpos($border, 'R') !== false) {
+                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ', ($x + $w) * $k, ($this->h - $y) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
+            }
+            if (strpos($border, 'B') !== false) {
+                $s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x * $k, ($this->h - ($y + $h)) * $k, ($x + $w) * $k, ($this->h - ($y + $h)) * $k);
+            }
         }
-        if($txt!=='')
-        {
-            if(!isset($this->CurrentFont))
-                $this->Error('No font has been set');
-            if($align=='R')
-                $dx = $w-$this->cMargin-$this->getStringWidth($txt);
-            elseif($align=='C')
-                $dx = ($w-$this->getStringWidth($txt))/2;
-            else
+        if ($txt !== '') {
+            if (!isset($this->CurrentFont)) {
+                $this->error('No font has been set');
+            }
+            if ($align == 'R') {
+                $dx = $w - $this->cMargin - $this->getStringWidth($txt);
+            } elseif ($align == 'C') {
+                $dx = ($w - $this->getStringWidth($txt)) / 2;
+            } else {
                 $dx = $this->cMargin;
-            if($this->ColorFlag)
-                $s .= 'q '.$this->TextColor.' ';
-            $s .= sprintf('BT %.2F %.2F Td (%s) Tj ET',($this->x+$dx)*$k,($this->h-($this->y+.5*$h+.3*$this->FontSize))*$k,$this->escape($txt));
-            if($this->underline)
-                $s .= ' '.$this->doUnderline($this->x+$dx,$this->y+.5*$h+.3*$this->FontSize,$txt);
-            if($this->ColorFlag)
+            }
+            if ($this->ColorFlag) {
+                $s .= 'q ' . $this->TextColor . ' ';
+            }
+            $s .= sprintf('BT %.2F %.2F Td (%s) Tj ET', ($this->x + $dx) * $k, ($this->h - ($this->y + 0.5 * $h + 0.3 * $this->FontSize)) * $k, $this->escape($txt));
+            if ($this->underline) {
+                $s .= ' ' . $this->doUnderline($this->x + $dx, $this->y + 0.5 * $h + 0.3 * $this->FontSize, $txt);
+            }
+            if ($this->ColorFlag) {
                 $s .= ' Q';
-            if($link)
-                $this->Link($this->x+$dx,$this->y+.5*$h-.5*$this->FontSize,$this->getStringWidth($txt),$this->FontSize,$link);
+            }
+            if ($link) {
+                $this->link($this->x + $dx, $this->y + 0.5 * $h - 0.5 * $this->FontSize, $this->getStringWidth($txt), $this->FontSize, $link);
+            }
         }
-        if($s)
+        if ($s) {
             $this->out($s);
+        }
         $this->lasth = $h;
-        if($ln>0)
-        {
+        if ($ln > 0) {
             // Go to next line
             $this->y += $h;
-            if($ln==1)
+            if ($ln == 1) {
                 $this->x = $this->lMargin;
-        }
-        else
+            }
+        } else {
             $this->x += $w;
+        }
     }
     
     /**
@@ -1118,11 +1132,11 @@ class FPDF
      *                          If set to true, current FillColor is used for the background. <br/>
      *                          Default value: false.
      */
-    public function MultiCell(float $w, float $h, string $txt, $border=0, string $align='J', bool $fill=false) : void
+    public function multiCell(float $w, float $h, string $txt, $border=0, string $align='J', bool $fill=false) : void
     {
         // Output text with automatic or explicit line breaks
         if(!isset($this->CurrentFont))
-            $this->Error('No font has been set');
+            $this->error('No font has been set');
         $cw = &$this->CurrentFont['cw'];
         if($w==0)
             $w = $this->w-$this->rMargin-$this->x;
@@ -1170,7 +1184,7 @@ class FPDF
                     $this->ws = 0;
                     $this->out('0 Tw');
                 }
-                $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+                $this->cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
                 $i++;
                 $sep = -1;
                 $j = $i;
@@ -1200,7 +1214,7 @@ class FPDF
                         $this->ws = 0;
                         $this->out('0 Tw');
                     }
-                    $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+                    $this->cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
                 }
                 else
                 {
@@ -1209,7 +1223,7 @@ class FPDF
                         $this->ws = ($ns>1) ? ($wmax-$ls)/1000*$this->FontSize/($ns-1) : 0;
                         $this->out(sprintf('%.3F Tw',$this->ws*$this->k));
                     }
-                    $this->Cell($w,$h,substr($s,$j,$sep-$j),$b,2,$align,$fill);
+                    $this->cell($w,$h,substr($s,$j,$sep-$j),$b,2,$align,$fill);
                     $i = $sep+1;
                 }
                 $sep = -1;
@@ -1231,7 +1245,7 @@ class FPDF
         }
         if($border && strpos($border,'B')!==false)
             $b .= 'B';
-        $this->Cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
+        $this->cell($w,$h,substr($s,$j,$i-$j),$b,2,$align,$fill);
         $this->x = $this->lMargin;
     }
     
@@ -1245,11 +1259,11 @@ class FPDF
      * @param string $txt       String to print.
      * @param string|int $link  URL or identifier for internal link created by AddLink().
      */
-    public function Write(float $h, string $txt, $link='') : void
+    public function write(float $h, string $txt, $link='') : void
     {
         // Output text in flowing mode
         if(!isset($this->CurrentFont))
-            $this->Error('No font has been set');
+            $this->error('No font has been set');
         $cw = &$this->CurrentFont['cw'];
         $w = $this->w-$this->rMargin-$this->x;
         $wmax = ($w-2*$this->cMargin)*1000/$this->FontSize;
@@ -1267,7 +1281,7 @@ class FPDF
             if($c=="\n")
             {
                 // Explicit line break
-                $this->Cell($w,$h,substr($s,$j,$i-$j),0,2,'',false,$link);
+                $this->cell($w,$h,substr($s,$j,$i-$j),0,2,'',false,$link);
                 $i++;
                 $sep = -1;
                 $j = $i;
@@ -1302,11 +1316,11 @@ class FPDF
                     }
                     if($i==$j)
                         $i++;
-                    $this->Cell($w,$h,substr($s,$j,$i-$j),0,2,'',false,$link);
+                    $this->cell($w,$h,substr($s,$j,$i-$j),0,2,'',false,$link);
                 }
                 else
                 {
-                    $this->Cell($w,$h,substr($s,$j,$sep-$j),0,2,'',false,$link);
+                    $this->cell($w,$h,substr($s,$j,$sep-$j),0,2,'',false,$link);
                     $i = $sep+1;
                 }
                 $sep = -1;
@@ -1325,7 +1339,7 @@ class FPDF
         }
         // Last chunk
         if($i!=$j)
-            $this->Cell($l/1000*$this->FontSize,$h,substr($s,$j),0,0,'',false,$link);
+            $this->cell($l/1000*$this->FontSize,$h,substr($s,$j),0,0,'',false,$link);
     }
     
     /**
@@ -1335,7 +1349,7 @@ class FPDF
      * @param float $h  The height of the break. <br/>
      *                  By default, the value equals the height of the last printed cell.
      */
-    public function Ln(float $h=null) : void
+    public function ln(float $h=null) : void
     {
         // Line feed; default value is the last cell height
         $this->x = $this->lMargin;
@@ -1391,11 +1405,11 @@ class FPDF
      *                      If not specified, the type is inferred from the file extension. <br/>
      * @param string|int $link  URL or identifier for internal link created by AddLink().
      */
-    public function Image(string $file, ?float $x=null, ?float $y=null, float $w=0, float $h=0, string $type='', $link='') : void
+    public function image(string $file, ?float $x=null, ?float $y=null, float $w=0, float $h=0, string $type='', $link='') : void
     {
         // Put an image on the page
         if ($file == '') {
-            $this->Error('Image file name is empty');
+            $this->error('Image file name is empty');
             return;
         }
         if (!isset($this->images[$file])) {
@@ -1403,7 +1417,7 @@ class FPDF
             if ($type == '') {
                 $pos = strrpos($file, '.');
                 if (!$pos) {
-                    $this->Error('Image file has no extension and no type was specified: ' . $file);
+                    $this->error('Image file has no extension and no type was specified: ' . $file);
                     return;
                 }
                 $type = substr($file, $pos + 1);
@@ -1414,7 +1428,7 @@ class FPDF
             }
             $mtd = 'parse' . ucfirst($type);
             if (!method_exists($this, $mtd)) {
-                $this->Error('Unsupported image type: ' . $type);
+                $this->error('Unsupported image type: ' . $type);
             }
             $info = $this->$mtd($file);
             $info['i'] = count($this->images) + 1;
@@ -1444,7 +1458,7 @@ class FPDF
     
         // Flowing mode
         if ($y === null) {
-            if ($this->y + $h > $this->PageBreakTrigger && !$this->InHeader && !$this->InFooter && $this->AcceptPageBreak()) {
+            if ($this->y + $h > $this->PageBreakTrigger && !$this->InHeader && !$this->InFooter && $this->acceptPageBreak()) {
                 // Automatic page break
                 $x2 = $this->x;
                 $this->addPage($this->CurOrientation, $this->CurPageSize, $this->CurRotation);
@@ -1459,7 +1473,7 @@ class FPDF
         }
         $this->out(sprintf('q %.2F 0 0 %.2F %.2F %.2F cm /I%d Do Q', $w * $this->k, $h * $this->k, $x * $this->k, ($this->h - ($y + $h)) * $this->k, $info['i']));
         if ($link) {
-            $this->Link($x,$y,$w,$h,$link);
+            $this->link($x,$y,$w,$h,$link);
         }
     }
     
@@ -1471,22 +1485,22 @@ class FPDF
      * @param int $level
      * @param int $y
      */
-    public function Bookmark(string $txt, bool $isUTF8=false, int $level=0, int $y=0) : void
+    public function bookmark(string $txt, bool $isUTF8=false, int $level=0, int $y=0) : void
     {
         if (!$isUTF8) {
             $txt = utf8_encode($txt);
         }
         if ($y == -1) {
-            $y = $this->GetY();
+            $y = $this->getY();
         }
-        $this->outlines[] = array('t' => $txt, 'l' => $level, 'y' => ($this->h - $y) * $this->k, 'p' => $this->PageNo());
+        $this->outlines[] = array('t' => $txt, 'l' => $level, 'y' => ($this->h - $y) * $this->k, 'p' => $this->pageNo());
     }
     
     /**
      * Get current page width.
      * @return float
      */
-    public function GetPageWidth() : float
+    public function getPageWidth() : float
     {
         // Get current page width
         return $this->w;
@@ -1496,7 +1510,7 @@ class FPDF
      * Get current page height.
      * @return float
      */
-    public function GetPageHeight() : float
+    public function getPageHeight() : float
     {
         // Get current page height
         return $this->h;
@@ -1506,7 +1520,7 @@ class FPDF
      * Get current x position.
      * @return float
      */
-    public function GetX() : float
+    public function getX() : float
     {
         // GetX position
         return $this->x;
@@ -1517,7 +1531,7 @@ class FPDF
      * If the passed value is negative, it is relative to the right of the page.
      * @param float $x
      */
-    public function SetX(float $x) : void
+    public function setX(float $x) : void
     {
         // Set x position
         if($x>=0)
@@ -1530,7 +1544,7 @@ class FPDF
      * Get current Y position.
      * @return float
      */
-    public function GetY() : float
+    public function getY() : float
     {
         // Get y position
         return $this->y;
@@ -1542,7 +1556,7 @@ class FPDF
      * @param float $y
      * @param bool $resetX
      */
-    public function SetY(float $y, bool $resetX=true) : void
+    public function setY(float $y, bool $resetX=true) : void
     {
         // Set y position and optionally reset x
         if($y>=0)
@@ -1559,7 +1573,7 @@ class FPDF
      * @param float $x
      * @param float $y
      */
-    public function SetXY(float $x, float $y) : void
+    public function setXY(float $x, float $y) : void
     {
         // Set x and y positions
         $this->setX($x);
@@ -1584,10 +1598,10 @@ class FPDF
      *                      The default value is false. <br/>
      * @return string
      */
-    public function Output(string $dest='', string $name='', bool $isUTF8=false) : string
+    public function output(string $dest = '', string $name = '', bool $isUTF8 = false) : string
     {
         // Output PDF to some destination
-        $this->Close();
+        $this->close();
         if(strlen($name)==1 && strlen($dest)!=1)
         {
             // Fix parameter order
@@ -1626,13 +1640,13 @@ class FPDF
             case 'F':
                 // Save to local file
                 if(!file_put_contents($name,$this->buffer))
-                    $this->Error('Unable to create output file: '.$name);
+                    $this->error('Unable to create output file: '.$name);
                 break;
             case 'S':
                 // Return as a string
                 return $this->buffer;
             default:
-                $this->Error('Incorrect output destination: '.$dest);
+                $this->error('Incorrect output destination: '.$dest);
         }
         return '';
     }
@@ -1644,7 +1658,7 @@ class FPDF
     {
         // Check mbstring overloading
         if ((ini_get('mbstring.func_overload') & 2) !== 0) {
-            $this->Error('mbstring overloading must be disabled');
+            $this->error('mbstring overloading must be disabled');
         }
     }
 
@@ -1674,7 +1688,7 @@ class FPDF
             $file = '';
             $line = 0;
             if (headers_sent($file, $line)) {
-                $this->Error("Some data has already been output, can't send PDF file (output started at $file:$line)");
+                $this->error("Some data has already been output, can't send PDF file (output started at $file:$line)");
             }
         }
         if (ob_get_length()) {
@@ -1683,7 +1697,7 @@ class FPDF
                 // It contains only a UTF-8 BOM and/or whitespace, let's clean it
                 ob_clean();
             } else {
-                $this->Error("Some data has already been output, can't send PDF file");
+                $this->error("Some data has already been output, can't send PDF file");
             }
         }
     }
@@ -1706,7 +1720,7 @@ class FPDF
             
             $size = strtolower($size);
             if (!isset($aStdPageSizes[$size])) {
-                $this->Error('Unknown page size: ' . $size);
+                $this->error('Unknown page size: ' . $size);
                 $a = $aStdPageSizes['a4'];
             } else {
                 $a = $aStdPageSizes[$size];
@@ -1766,7 +1780,7 @@ class FPDF
         }
         if ($rotation != 0) {
             if ($rotation % 90 != 0) {
-                $this->Error('Incorrect rotation value: ' . $rotation);
+                $this->error('Incorrect rotation value: ' . $rotation);
             }
             $this->CurRotation = $rotation;
             $this->PageInfo[$this->page]['rotation'] = $rotation;
@@ -1790,7 +1804,7 @@ class FPDF
     {
         // Load a font definition file from the font directory
         if (strpos($font, '/') !== false || strpos($font, "\\") !== false) {
-            $this->Error('Incorrect font definition file name: ' . $font);
+            $this->error('Incorrect font definition file name: ' . $font);
             return [];
         }
         // following vars must be initialized in the font definition file beeing included
@@ -1801,8 +1815,7 @@ class FPDF
         
         // phpstan can't see the code dynamicly included before so assuming $name, $enc, $subsetted always set to null!
         if (!isset($name)) {            /* @phpstan-ignore-line */
-            $this->Error('Could not include font definition file');
-            return [];
+            $this->error('Could not include font definition file');
         }
         if (isset($enc)) {              /* @phpstan-ignore-line */
             $enc = strtolower($enc);
@@ -1941,11 +1954,11 @@ class FPDF
         // Extract info from a JPEG file
         $a = getimagesize($file);
         if (!$a) {
-            $this->Error('Missing or incorrect image file: ' . $file);
+            $this->error('Missing or incorrect image file: ' . $file);
             return [];
         }
         if ($a[2] != 2) {
-            $this->Error('Not a JPEG file: ' . $file);
+            $this->error('Not a JPEG file: ' . $file);
             return [];
         }
         if (!isset($a['channels']) || $a['channels'] == 3) {
@@ -1970,7 +1983,7 @@ class FPDF
         // Extract info from a PNG file
         $f = fopen($file, 'rb');
         if ($f === false) {
-            $this->Error('Can\'t open image file: ' . $file);
+            $this->error('Can\'t open image file: ' . $file);
             return [];
         }
         $info = $this->parsePngStream($f, $file);
@@ -1988,21 +2001,21 @@ class FPDF
     {
         // Check signature
         if ($this->readStream($f, 8) != chr(137) . 'PNG' . chr(13) . chr(10) . chr(26) . chr(10)) {
-            $this->Error('Not a PNG file: ' . $file);
+            $this->error('Not a PNG file: ' . $file);
             return [];
         }
     
         // Read header chunk
         $this->readStream($f, 4);
         if ($this->readStream($f, 4) != 'IHDR') {
-            $this->Error('Incorrect PNG file: ' . $file);
+            $this->error('Incorrect PNG file: ' . $file);
             return [];
         }
         $w = $this->readInt($f);
         $h = $this->readInt($f);
         $bpc = ord($this->readStream($f, 1));
         if ($bpc > 8) {
-            $this->Error('16-bit depth not supported: ' . $file);
+            $this->error('16-bit depth not supported: ' . $file);
             return [];
         }
         $ct = ord($this->readStream($f, 1));
@@ -2014,19 +2027,19 @@ class FPDF
         } elseif ($ct == 3) {
             $colspace = 'Indexed';
         } else {
-            $this->Error('Unknown color type: ' . $file);
+            $this->error('Unknown color type: ' . $file);
             return [];
         }
         if (ord($this->readStream($f, 1)) != 0) {
-            $this->Error('Unknown compression method: ' . $file);
+            $this->error('Unknown compression method: ' . $file);
             return [];
         }
         if (ord($this->readStream($f, 1)) != 0) {
-            $this->Error('Unknown filter method: ' . $file);
+            $this->error('Unknown filter method: ' . $file);
             return [];
         }
         if (ord($this->readStream($f, 1)) != 0) {
-            $this->Error('Interlacing not supported: ' . $file);
+            $this->error('Interlacing not supported: ' . $file);
             return [];
         }
         $this->readStream($f, 4);
@@ -2069,7 +2082,7 @@ class FPDF
         } while ($n);
     
         if ($colspace == 'Indexed' && empty($pal)) {
-            $this->Error('Missing palette in ' . $file);
+            $this->error('Missing palette in ' . $file);
             return [];
         }
         $info = array(
@@ -2086,7 +2099,7 @@ class FPDF
         if ($ct >= 4) {
             // Extract alpha channel
             if (!function_exists('gzuncompress')) {
-                $this->Error('Zlib not available, can\'t handle alpha channel: ' . $file);
+                $this->error('Zlib not available, can\'t handle alpha channel: ' . $file);
                 return [];
             }
             $data = gzuncompress($data);
@@ -2140,14 +2153,14 @@ class FPDF
         while ($n > 0 && !feof($f)) {
             $s = fread($f, $n);
             if ($s === false) {
-                $this->Error('Error while reading stream');
+                $this->error('Error while reading stream');
                 return '';
             }
             $n -= strlen($s);
             $res .= $s;
         }
         if ($n > 0) {
-            $this->Error('Unexpected end of stream');
+            $this->error('Unexpected end of stream');
         }
         return $res;
     }
@@ -2177,16 +2190,16 @@ class FPDF
     {
         // Extract info from a GIF file (via PNG conversion)
         if (!function_exists('imagepng')) {
-            $this->Error('GD extension is required for GIF support');
+            $this->error('GD extension is required for GIF support');
             return [];
         }
         if (!function_exists('imagecreatefromgif')) {
-            $this->Error('GD has no GIF read support');
+            $this->error('GD has no GIF read support');
             return [];
         }
         $im = imagecreatefromgif($file);
         if ($im === false) {
-            $this->Error('Missing or incorrect image file: ' . $file);
+            $this->error('Missing or incorrect image file: ' . $file);
             return [];
         }
         imageinterlace($im, 0);
@@ -2196,7 +2209,7 @@ class FPDF
         imagedestroy($im);
         $f = fopen('php://temp', 'rb+');
         if ($f === false) {
-            $this->Error('Unable to create memory stream');
+            $this->error('Unable to create memory stream');
             return [];
         }
         fwrite($f, $data);
@@ -2215,7 +2228,7 @@ class FPDF
         // Add a line to the document
         switch ($this->state) {
             case 0: // no page added so far
-                $this->Error('No page has been added yet');
+                $this->error('No page has been added yet');
                 break;
             case 1: // all output in the endDoc() method goes direct to the buffer
                 $this->put($s);
@@ -2224,7 +2237,7 @@ class FPDF
                 $this->pages[$this->page] .= $s . "\n";
                 break;
             case 3: // document is closed so far
-                $this->Error('The document is closed');
+                $this->error('The document is closed');
                 break;
         }
     }
@@ -2382,7 +2395,7 @@ class FPDF
             $this->FontFiles[$file]['n'] = $this->n;
             $font = file_get_contents($this->fontpath . $file, true);
             if (!$font) {
-                $this->Error('Font file not found: ' . $file);
+                $this->error('Font file not found: ' . $file);
             }
             $compressed = (substr($file, -2) == '.z');
             if (!$compressed && isset($info['length2'])) {
@@ -2488,7 +2501,7 @@ class FPDF
                 // Allow for additional types
                 $mtd = '_put' . strtolower($type);
                 if (!method_exists($this, $mtd)) {
-                    $this->Error('Unsupported font type: ' . $type);
+                    $this->error('Unsupported font type: ' . $type);
                 }
                 $this->$mtd($font);
             }

@@ -38,36 +38,36 @@ class ExampleXPDF extends XPDF
         //
         // The structure of the JSON file is self-explanatory and can be seen in the example file
         // used here.
-        $this->InitGrid('xfpdf-sample.json');
+        $this->initGrid('xfpdf-sample.json');
         
         // set Logo printed in the page header
-        $this->SetLogo('images/elephpant.png');
-        $this->SetLogoHeight(9.0);
-        $this->SetPageFooter("Page: {PN}/{NP}\tAuthor: S.Kien\t{D} {T}");
+        $this->setLogo('images/elephpant.png');
+        $this->setLogoHeight(9.0);
+        $this->setPageFooter("Page: {PN}/{NP}\tAuthor: S.Kien\t{D} {T}");
         
         // now we define the columns of our report
-        $this->AddCol('Row',            10, 'R', XPDF::COL_ROW_NR,     XPDF::FLAG_TOTALS_TEXT);
-        $this->AddCol('Date',           35, 'C', 'date',               XPDF::FLAG_DATE);
-        $this->AddCol('Text',           -1, 'L', 'text');
-        $this->AddCol('Grp.',           12, 'C', self::MY_GRP_COL);
-        $this->AddCol('Weight',         20, 'R', 'weight',             XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
-        $iImgCol = $this->AddCol(-1,     8, 'C', self::MY_IMAGE_COL,   XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
-        $this->AddCol('Price',          25, 'R', 'price',              XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
-        $this->AddCol('Cost per kg',    25, 'R', self::MY_CALC_COL,    XPDF::FLAG_TOTALS_EMPTY);
+        $this->addCol('Row',            10, 'R', XPDF::COL_ROW_NR,     XPDF::FLAG_TOTALS_TEXT);
+        $this->addCol('Date',           35, 'C', 'date',               XPDF::FLAG_DATE);
+        $this->addCol('Text',           -1, 'L', 'text');
+        $this->addCol('Grp.',           12, 'C', self::MY_GRP_COL);
+        $this->addCol('Weight',         20, 'R', 'weight',             XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
+        $iImgCol = $this->addCol(-1,     8, 'C', self::MY_IMAGE_COL,   XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
+        $this->addCol('Price',          25, 'R', 'price',              XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
+        $this->addCol('Cost per kg',    25, 'R', self::MY_CALC_COL,    XPDF::FLAG_TOTALS_EMPTY);
         
         // enable the totals/pagetotals and carry-over functionality
-        $this->EnableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
-        $this->SetTotalsText(
+        $this->enableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
+        $this->setTotalsText(
             "My Totals over all:",
             "Subtotal on Page {PN}:",
             "Carry over from Page {PN-1}:");
         
         // set date and number formating.
-        $this->SetDateFormat('%a, %d.%m.%Y');
-        $this->SetNumberFormat(1, '', ' kg');
+        $this->setDateFormat('%a, %d.%m.%Y');
+        $this->setNumberFormat(1, '', ' kg');
         
         // and set meassuring for the image col
-        $this->SetColImageInfo($iImgCol, 1.5, 2.5, 3 );
+        $this->setColImageInfo($iImgCol, 1.5, 2.5, 3 );
     }
     
     /**
@@ -78,12 +78,12 @@ class ExampleXPDF extends XPDF
      * not included in raw data 
      * 
      * !! Important !!
-     * dont't forget to call parent::Col($iCol, $row, $bFill) if data not processed... 
+     * dont't forget to call parent::col($iCol, $row, $bFill) if data not processed... 
      * 
      * (non-PHPdoc)
-     * @see XPDF::Col()
+     * @see XPDF::col()
      */
-    protected function Col(int $iCol, array $row, bool &$bFill) : string 
+    protected function col(int $iCol, array $row, bool &$bFill) : string 
     {
         $strCol = '';
         switch ($iCol) {
@@ -115,7 +115,7 @@ class ExampleXPDF extends XPDF
                 break;
             default:
                 // very important to call parent class !!
-                $strCol = parent::Col($iCol, $row, $bFill);
+                $strCol = parent::col($iCol, $row, $bFill);
                 break;
         }
         return $strCol;
@@ -132,9 +132,9 @@ class ExampleXPDF extends XPDF
      * further output.  
      * 
      * (non-PHPdoc)
-     * @see XPDF::PreRow()
+     * @see XPDF::preRow()
      */
-    protected function PreRow(array &$row) : string
+    protected function preRow(array &$row) : string
     {
         // for grouping
         $date = strtotime($row['date']);
@@ -142,14 +142,14 @@ class ExampleXPDF extends XPDF
         if ( $this->strMonth != $strMonth) {
             // first row we have no subtotals...
             if ($this->strMonth != '') {
-                $this->EndGroup();
+                $this->endGroup();
             }
-            $this->StartGroup('Totals ' . strftime('%B %Y', $date) . ':', strftime('%B %Y', $date));
+            $this->startGroup('Totals ' . strftime('%B %Y', $date) . ':', strftime('%B %Y', $date));
             $this->strMonth = $strMonth;
         }
         $strSubRow = '';
         if ($this->iRow == 47) {
-            $strSubRow = '... next Row have been manipulated in ExampleXPDF::PreRow(array &$row)!';
+            $strSubRow = '... next Row have been manipulated in ExampleXPDF::preRow(array &$row)!';
             $row['text'] = 'manipulated Rowdata!';
         }
         if ($this->iRow == 56) {
@@ -161,12 +161,12 @@ class ExampleXPDF extends XPDF
     /**
      * Overwrite the EndGrid() method to close the last group.
      * {@inheritDoc}
-     * @see \SKien\XFPDF\XPDF::EndGrid()
+     * @see \SKien\XFPDF\XPDF::endGrid()
      */
-    public function EndGrid() : void
+    public function endGrid() : void
     {
         // end last group for subtotals before we call the parent (!!! don't forget that!!)
-        $this->EndGroup();
-        parent::EndGrid();
+        $this->endGroup();
+        parent::endGrid();
     }
 }
