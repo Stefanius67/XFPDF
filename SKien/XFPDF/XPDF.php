@@ -1175,69 +1175,137 @@ class XPDF extends FPDF
     {
         if ($this->bInGrid && $this->bCalcTotals) {
             $a = $this->saveSettings();
-            // totals and pagetotals use colors and font from ColHeader
-            // all other uses format from subheader
-            if ($iTotals == self::TOTALS || $iTotals == self::PAGE_TOTALS) {
-                $this->SelectFillColor($this->strColHeaderFillColor);
-                $this->SelectTextColor($this->strColHeaderTextColor);
-                $this->SetLineWidth(0.2);
-                $this->SelectFont($this->fontColHeader);
-            } else {
-                $this->SelectFillColor($this->strSubHeaderFillColor);
-                $this->SelectTextColor($this->strSubHeaderTextColor);
-                $this->SetLineWidth(0.2);
-                $this->SelectFont($this->fontSubHeader);
-            }
-            $aTotals =  $this->aTotals;
-            $strText = '';
-            switch ($iTotals) {
-                case self::TOTALS:
-                    $strText = $this->strTotals;
-                    break;
-                case self::PAGE_TOTALS:
-                    $strText = $this->strPageTotals;
-                    break;
-                case self::CARRY_OVER:
-                    $strText = $this->strCarryOver;
-                    break;
-                case self::SUB_TOTALS:
-                    $strText = $this->strSubTotals;
-                    $aTotals =  $this->aSubTotals;
-                    break;
-                default:
-                    break;
-            }
-            
+            $this->setTotalsRowFormat($iTotals);
+            $aTotals = $this->getTotalsRowValues($iTotals);
+            $strText = $this->getTotalsRowText($iTotals);
             $iCol = 0;
-            for ($i = 0; $i <= $this->iMaxColTotals; $i++) {
-                $wFlags = $this->aColFlags[$iCol];
+            for ($iTotalsCol = 0; $iTotalsCol <= $this->iMaxColTotals; $iTotalsCol++) {
                 $strCol = '';
                 $strAlign = 'C';
-                if (($wFlags & self::FLAG_TOTALS_TEXT) != 0) {
+                
+                if ($this->isTotalsTextCol($iCol)) {
                     $strCol = $this->convText($strText);
-                    $strCol = str_replace('{PN}', strval($this->page), $strCol);
-                    $strCol = str_replace('{PN-1}', strval($this->page - 1), $strCol);
                     $strAlign = 'L';
-                } elseif (($wFlags & self::FLAG_TOTALS_CALC) != 0) {
-                    $strCol = $aTotals[$iCol];
-                    $strCol = $this->formatValue($strCol, $wFlags);
+                } elseif ($this->isTotalsCalcCol($iCol)) {
+                    $strCol = $this->formatValue($aTotals[$iCol], $this->aColFlags[$iCol]);
                     $strAlign = 'R';
                 }
-                $iWidth = 0;
-                if ($this->aTotalsColSpan[$i] > 1) {
-                    $j = 0;
-                    while ($j < $this->aTotalsColSpan[$i]) {
-                        $iWidth += $this->aColWidth[$iCol++];
-                        $j++;
-                    }
-                } else {
-                    $iWidth = $this->aColWidth[$iCol++];
-                }
+                $iWidth = $this->calcTotalsColWidth($iTotalsCol, $iCol);
                 $this->Cell($iWidth, $this->fltLineHeight, $this->convText($strCol), 1, 0, $strAlign, true);
+                $iCol += $this->aTotalsColSpan[$iTotalsCol];
             }
             $this->Ln();
             $this->restoreSettings($a);
         }
+    }
+
+    /**
+     * Set the format for the requested totals row.
+     * - totals and pagetotals use colors and font from ColHeader <br/>
+     * - all other types uses format from subheader <br/>
+     * @param int $iTotals
+     */
+    protected function setTotalsRowFormat(int $iTotals) : void
+    {
+        if ($iTotals == self::TOTALS || $iTotals == self::PAGE_TOTALS) {
+            $this->SelectFillColor($this->strColHeaderFillColor);
+            $this->SelectTextColor($this->strColHeaderTextColor);
+            $this->SetLineWidth(0.2);
+            $this->SelectFont($this->fontColHeader);
+        } else {
+            $this->SelectFillColor($this->strSubHeaderFillColor);
+            $this->SelectTextColor($this->strSubHeaderTextColor);
+            $this->SetLineWidth(0.2);
+            $this->SelectFont($this->fontSubHeader);
+        }
+    }
+    
+    /**
+     * Get the tect for requested totals row.
+     * Get the text dependent on the type of the totals row and replaace
+     * all supported placeholders. 
+     * @param int $iTotals
+     * @return string
+     */
+    protected function getTotalsRowText(int $iTotals) : string
+    {
+        $strText = '';
+        switch ($iTotals) {
+            case self::TOTALS:
+                $strText = $this->strTotals;
+                break;
+            case self::PAGE_TOTALS:
+                $strText = $this->strPageTotals;
+                break;
+            case self::CARRY_OVER:
+                $strText = $this->strCarryOver;
+                break;
+            case self::SUB_TOTALS:
+                $strText = $this->strSubTotals;
+                break;
+            default:
+                break;
+        }
+        // replace supported placeholders
+        $strText = str_replace('{PN}', strval($this->page), $strText);
+        $strText = str_replace('{PN-1}', strval($this->page - 1), $strText);
+        return $strText;         
+    }
+    
+    /**
+     * Get the calculated values for the requested totals row.
+     * @param int $iTotals
+     * @return array
+     */
+    protected function getTotalsRowValues(int $iTotals) : array
+    {
+        if ($iTotals == self::SUB_TOTALS) {
+            return $this->aSubTotals;
+        } else {
+            return $this->aTotals;
+        }
+    }
+
+    /**
+     * Check, if requested col is set for the output of totals text.
+     * @param int $iCol
+     * @return bool
+     */
+    protected function isTotalsTextCol(int $iCol) : bool
+    {
+        return ($this->aColFlags[$iCol] & self::FLAG_TOTALS_TEXT) != 0;
+    }
+
+    /**
+     * Check, if requested col is defined for totals calculation.
+     * @param int $iCol
+     * @return bool
+     */
+    protected function isTotalsCalcCol(int $iCol) : bool
+    {
+        return ($this->aColFlags[$iCol] & self::FLAG_TOTALS_CALC) != 0;
+    }
+    
+    /**
+     * Calculates the width of the requested totals col.
+     * 
+     * @param int $iTotalsCol
+     * @param int $iCol
+     * @return float
+     */
+    protected function calcTotalsColWidth(int $iTotalsCol, int $iCol) : float
+    {
+        $fltWidth = 0;
+        if ($this->aTotalsColSpan[$iTotalsCol] > 1) {
+            $j = 0;
+            while ($j < $this->aTotalsColSpan[$iTotalsCol]) {
+                $fltWidth += $this->aColWidth[$iCol++];
+                $j++;
+            }
+        } else {
+            $fltWidth = $this->aColWidth[$iCol++];
+        }
+        return $fltWidth;
     }
     
     /**
