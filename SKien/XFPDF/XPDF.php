@@ -189,12 +189,6 @@ class XPDF extends FPDF
     /** @var bool       setlocale() not called or returned false!   */
     protected bool $bInvalidLocale = true;
     
-    /** for bookmarks - extension from O.Plathey at FPDF.org */
-    /** @var array   */
-    protected array $outlines = array();
-    /** @var int     */
-    protected int $outlineRoot;
-    
     /**
      * class constructor.
      * allows to set up the page size, the orientation and the unit of measure used in all methods (except for font sizes).
@@ -430,40 +424,40 @@ class XPDF extends FPDF
                     $this->fontRows     = new XPDFFont($oFont->name, $oFont->style, $oFont->size);
                 }
                 
-                $this->fltLineHeight = $this->_Property($jsonData, 'dblLineHeight', $this->fltLineHeight);
-                $this->fltLineHeight = $this->_Property($jsonData, 'fltLineHeight', $this->fltLineHeight);
+                $this->fltLineHeight = $this->property($jsonData, 'dblLineHeight', $this->fltLineHeight);
+                $this->fltLineHeight = $this->property($jsonData, 'fltLineHeight', $this->fltLineHeight);
                 
-                $this->strHeaderTextColor = $this->_Property($jsonData, 'strHeaderTextColor', $this->strHeaderTextColor);
-                $this->strHeaderDrawColor = $this->_Property($jsonData, 'strHeaderDrawColor', $this->strHeaderDrawColor);
+                $this->strHeaderTextColor = $this->property($jsonData, 'strHeaderTextColor', $this->strHeaderTextColor);
+                $this->strHeaderDrawColor = $this->property($jsonData, 'strHeaderDrawColor', $this->strHeaderDrawColor);
                 
-                $this->strFooterTextColor = $this->_Property($jsonData, 'strFooterTextColor', $this->strFooterTextColor);
-                $this->strFooterDrawColor = $this->_Property($jsonData, 'strFooterDrawColor', $this->strFooterDrawColor);
+                $this->strFooterTextColor = $this->property($jsonData, 'strFooterTextColor', $this->strFooterTextColor);
+                $this->strFooterDrawColor = $this->property($jsonData, 'strFooterDrawColor', $this->strFooterDrawColor);
                 
-                $this->strColHeaderTextColor    = $this->_Property($jsonData, 'strColHeaderTextColor', $this->strColHeaderTextColor);
-                $this->strColHeaderFillColor    = $this->_Property($jsonData, 'strColHeaderFillColor', $this->strColHeaderFillColor);
-                $this->strSubHeaderTextColor    = $this->_Property($jsonData, 'strSubHeaderTextColor', $this->strSubHeaderTextColor);
-                $this->strSubHeaderFillColor    = $this->_Property($jsonData, 'strSubHeaderFillColor', $this->strSubHeaderFillColor);
-                $this->strRowTextColor          = $this->_Property($jsonData, 'strRowTextColor', $this->strRowTextColor);
-                $this->strRowDrawColor          = $this->_Property($jsonData, 'strRowDrawColor', $this->strRowDrawColor);
-                $this->strRowFillColor          = $this->_Property($jsonData, 'strRowFillColor', $this->strRowFillColor);
-                $this->strLinkTextColor         = $this->_Property($jsonData, 'strLinkTextColor', $this->strLinkTextColor);
+                $this->strColHeaderTextColor    = $this->property($jsonData, 'strColHeaderTextColor', $this->strColHeaderTextColor);
+                $this->strColHeaderFillColor    = $this->property($jsonData, 'strColHeaderFillColor', $this->strColHeaderFillColor);
+                $this->strSubHeaderTextColor    = $this->property($jsonData, 'strSubHeaderTextColor', $this->strSubHeaderTextColor);
+                $this->strSubHeaderFillColor    = $this->property($jsonData, 'strSubHeaderFillColor', $this->strSubHeaderFillColor);
+                $this->strRowTextColor          = $this->property($jsonData, 'strRowTextColor', $this->strRowTextColor);
+                $this->strRowDrawColor          = $this->property($jsonData, 'strRowDrawColor', $this->strRowDrawColor);
+                $this->strRowFillColor          = $this->property($jsonData, 'strRowFillColor', $this->strRowFillColor);
+                $this->strLinkTextColor         = $this->property($jsonData, 'strLinkTextColor', $this->strLinkTextColor);
                 
-                $this->bStripped = $this->_Property($jsonData, 'bStripped', $this->bStripped);
-                $this->border = $this->_Property($jsonData, 'border', $this->border);
+                $this->bStripped = $this->property($jsonData, 'bStripped', $this->bStripped);
+                $this->border = $this->property($jsonData, 'border', $this->border);
                 
-                $this->bCalcTotals               = $this->_Property($jsonData, 'bCalcTotals', $this->bCalcTotals);
-                $this->bPageTotals   = $this->_Property($jsonData, 'bPageTotals', $this->bPageTotals);
-                $this->bCarryOver        = $this->_Property($jsonData, 'bCarryOver', $this->bCarryOver);
+                $this->bCalcTotals               = $this->property($jsonData, 'bCalcTotals', $this->bCalcTotals);
+                $this->bPageTotals   = $this->property($jsonData, 'bPageTotals', $this->bPageTotals);
+                $this->bCarryOver        = $this->property($jsonData, 'bCarryOver', $this->bCarryOver);
                 
-                $this->strTotals    = $this->_Property($jsonData, 'strTotals', $this->strTotals);
-                $this->strPageTotals = $this->_Property($jsonData, 'strPageTotals', $this->strPageTotals);
-                $this->strCarryOver = $this->_Property($jsonData, 'strCarryOver', $this->strCarryOver);
+                $this->strTotals    = $this->property($jsonData, 'strTotals', $this->strTotals);
+                $this->strPageTotals = $this->property($jsonData, 'strPageTotals', $this->strPageTotals);
+                $this->strCarryOver = $this->property($jsonData, 'strCarryOver', $this->strCarryOver);
                 
-                $this->strCharset = $this->_Property($jsonData, 'strCharset', $this->strCharset);
-                $this->SetLocale($this->_Property($jsonData, 'strLocale', $this->strLocale));
-                $this->strFormatD = $this->_Property($jsonData, 'strFormatD', $this->strFormatD);
-                $this->strFormatT = $this->_Property($jsonData, 'strFormatT', $this->strFormatT);
-                $this->strFormatDT = $this->_Property($jsonData, 'strFormatDT', $this->strFormatDT);
+                $this->strCharset = $this->property($jsonData, 'strCharset', $this->strCharset);
+                $this->SetLocale($this->property($jsonData, 'strLocale', $this->strLocale));
+                $this->strFormatD = $this->property($jsonData, 'strFormatD', $this->strFormatD);
+                $this->strFormatT = $this->property($jsonData, 'strFormatT', $this->strFormatT);
+                $this->strFormatDT = $this->property($jsonData, 'strFormatDT', $this->strFormatDT);
             } else {
                 trigger_error('unable to decode contents of JSON file [' . $strFilename . ']', E_USER_NOTICE);
             }
@@ -801,7 +795,7 @@ class XPDF extends FPDF
      */
     public function Row(array $row) : void
     {
-        $a = $this->_SaveSettings();
+        $a = $this->saveSettings();
         $this->iRow++;
         if (($strPreRow = $this->PreRow($row)) != '') {
             $this->SubHeader($strPreRow);
@@ -811,7 +805,7 @@ class XPDF extends FPDF
         }
         $this->RowInner($row);
         $this->PostRow($row);
-        $this->_RestoreSettings($a);
+        $this->restoreSettings($a);
     }
     
     /**
@@ -853,25 +847,6 @@ class XPDF extends FPDF
     }
     
     /**
-     * Set bookmark at current position.
-     * <b>Thanks to O.Plathey from FPDF.org for extension to create Bookmarks</b>
-     * @param string $txt
-     * @param bool $isUTF8
-     * @param int $level
-     * @param int $y
-     */
-    public function Bookmark(string $txt, bool $isUTF8=false, int $level=0, int $y=0) : void
-    {
-        if (!$isUTF8) {
-            $txt = utf8_encode($txt);
-        }
-        if ($y == -1) {
-            $y = $this->GetY();
-        }
-        $this->outlines[] = array('t' => $txt, 'l' => $level, 'y' => ($this->h - $y) * $this->k, 'p' => $this->PageNo());
-    }
-    
-    /**
      * Selects given font.
      * @param XPDFFont $font
      */
@@ -889,7 +864,7 @@ class XPDF extends FPDF
     public function SelectTextColor(string $strColor) : void
     {
         $r=0; $g=0; $b=0;
-        $this->_GetRGB($strColor, $r, $g, $b);
+        $this->getRGB($strColor, $r, $g, $b);
         $this->SetTextColor($r, $g, $b);
     }
     
@@ -900,7 +875,7 @@ class XPDF extends FPDF
     public function SelectDrawColor(string $strColor) : void
     {
         $r=0; $g=0; $b=0;
-        $this->_GetRGB($strColor, $r, $g, $b);
+        $this->getRGB($strColor, $r, $g, $b);
         $this->SetDrawColor($r, $g, $b);
     }
     
@@ -911,7 +886,7 @@ class XPDF extends FPDF
     public function SelectFillColor(string $strColor) : void
     {
         $r=0; $g=0; $b=0;
-        $this->_GetRGB($strColor, $r, $g, $b);
+        $this->getRGB($strColor, $r, $g, $b);
         $this->SetFillColor($r, $g, $b);
     }
     
@@ -967,8 +942,8 @@ class XPDF extends FPDF
             $this->SelectFont($this->fontHeader);
             $this->SelectTextColor($this->strHeaderTextColor);
             $this->SetLineWidth(0.2);
-            $strPageTitle = $this->_ReplacePlaceholder($this->strPageTitle);
-            $strPageSubject = $this->_ReplacePlaceholder($this->strPageSubject);
+            $strPageTitle = $this->replacePlaceholder($this->strPageTitle);
+            $strPageSubject = $this->replacePlaceholder($this->strPageSubject);
             $this->Cell(0, $this->FontSize, $strPageTitle, 0, 0, 'L');
             $this->Ln();
             if (strlen($strPageSubject) > 0) {
@@ -1031,7 +1006,7 @@ class XPDF extends FPDF
             }
             $i = 0;
             foreach ($aCell as $strCell) {
-                $strCell = $this->_ReplacePlaceholder($strCell);
+                $strCell = $this->replacePlaceholder($strCell);
                 $this->Cell($iWidth / count($aCell), 7, $strCell, 'T', 0, $aAlign[$i++]);
             }
         }
@@ -1072,7 +1047,7 @@ class XPDF extends FPDF
      */
     protected function SubHeader(string $strText) : void 
     {
-        $a = $this->_SaveSettings();
+        $a = $this->saveSettings();
         
         $this->SelectFillColor($this->strSubHeaderFillColor);
         $this->SelectTextColor($this->strSubHeaderTextColor);
@@ -1084,11 +1059,9 @@ class XPDF extends FPDF
         $iWidth = $this->w - $this->lMargin - $this->rMargin;
         $this->Cell($iWidth, $this->fltLineHeight, $strText, $this->border, 0, 'L', true);
         $this->Ln();
-        $this->_RestoreSettings($a);
+        $this->restoreSettings($a);
         // reset pagebreak trigger
         $this->SetAutoPageBreak(true, $iBottomMargin);
-        
-        $this->_RestoreSettings($a);
     }
     
     /**
@@ -1144,7 +1117,7 @@ class XPDF extends FPDF
             }
         
             // save for restore, if changed for current col
-            $a = $this->_SaveSettings();
+            $a = $this->saveSettings();
         
             if (is_numeric($field)) {
                 // get value from derived class
@@ -1156,7 +1129,7 @@ class XPDF extends FPDF
                 } else {
                     $strCell = $row[$field];
                 }
-                $strCell = $this->_FormatValue($strCell, $wFlags);
+                $strCell = $this->formatValue($strCell, $wFlags);
             }
             $link = '';
             if (($wFlags & self::FLAG_INT_LINK) != 0) {
@@ -1185,11 +1158,11 @@ class XPDF extends FPDF
                 $this->Cell($iWidth, $this->fltLineHeight, '', $this->border, 0, $strAlign, $bFill, $link);
                 $this->Image($strCell, $fltLeft, $fltTop, $fltWidth, $fltHeight);
             } else {
-                $strCell = $this->_ConvText($strCell);
+                $strCell = $this->convText($strCell);
                 $this->Cell($iWidth, $this->fltLineHeight, $strCell, $this->border, 0, $strAlign, $bFill, $link);
             }
                 
-            $this->_RestoreSettings($a);
+            $this->restoreSettings($a);
         }
         $this->Ln();
     }
@@ -1201,7 +1174,7 @@ class XPDF extends FPDF
     protected function TotalsRow(int $iTotals) : void
     {
         if ($this->bInGrid && $this->bCalcTotals) {
-            $a = $this->_SaveSettings();
+            $a = $this->saveSettings();
             // totals and pagetotals use colors and font from ColHeader
             // all other uses format from subheader
             if ($iTotals == self::TOTALS || $iTotals == self::PAGE_TOTALS) {
@@ -1241,13 +1214,13 @@ class XPDF extends FPDF
                 $strCol = '';
                 $strAlign = 'C';
                 if (($wFlags & self::FLAG_TOTALS_TEXT) != 0) {
-                    $strCol = $this->_ConvText($strText);
+                    $strCol = $this->convText($strText);
                     $strCol = str_replace('{PN}', strval($this->page), $strCol);
                     $strCol = str_replace('{PN-1}', strval($this->page - 1), $strCol);
                     $strAlign = 'L';
                 } elseif (($wFlags & self::FLAG_TOTALS_CALC) != 0) {
                     $strCol = $aTotals[$iCol];
-                    $strCol = $this->_FormatValue($strCol, $wFlags);
+                    $strCol = $this->formatValue($strCol, $wFlags);
                     $strAlign = 'R';
                 }
                 $iWidth = 0;
@@ -1260,10 +1233,10 @@ class XPDF extends FPDF
                 } else {
                     $iWidth = $this->aColWidth[$iCol++];
                 }
-                $this->Cell($iWidth, $this->fltLineHeight, $this->_ConvText($strCol), 1, 0, $strAlign, true);
+                $this->Cell($iWidth, $this->fltLineHeight, $this->convText($strCol), 1, 0, $strAlign, true);
             }
             $this->Ln();
-            $this->_RestoreSettings($a);
+            $this->restoreSettings($a);
         }
     }
     
@@ -1339,7 +1312,7 @@ class XPDF extends FPDF
      * @param int $g    green component of color
      * @param int $b    blue component of color
      */
-    protected function _GetRGB(string $strColor, int &$r, int &$g, int &$b) : void
+    protected function getRGB(string $strColor, int &$r, int &$g, int &$b) : void
     {
         if ($strColor[0] == '#') {
             if (strlen( $strColor ) == 7) {
@@ -1361,7 +1334,7 @@ class XPDF extends FPDF
      * Save some setting to restore after operations changing settings.
      * @return array
      */
-    protected function _SaveSettings() : array
+    protected function saveSettings() : array
     {
         $a = array();
         
@@ -1383,12 +1356,12 @@ class XPDF extends FPDF
      * Restore only values differing   
      * @param array $a
      */
-    protected function _RestoreSettings(array $a) : void
+    protected function restoreSettings(array $a) : void
     {
         // Restore line width
         if ($this->LineWidth != $a['lw']) {
             $this->LineWidth = $a['lw'];
-            $this->_out(sprintf( '%.2F w', $a['lw'] * $this->k ));
+            $this->out(sprintf( '%.2F w', $a['lw'] * $this->k ));
         }
         // Restore font
         if (($a['family'] != $this->FontFamily) ||
@@ -1401,11 +1374,11 @@ class XPDF extends FPDF
         // Restore colors
         if ($this->DrawColor != $a['dc']) {
             $this->DrawColor = $a['dc'];
-            $this->_out( $a['dc']);
+            $this->out( $a['dc']);
         }
         if ($this->FillColor != $a['fc']) {
             $this->FillColor = $a['fc'];
-            $this->_out( $a['fc']);
+            $this->out( $a['fc']);
         }
         $this->TextColor = $a['tc'];
         $this->ColorFlag = $a['cf'];
@@ -1419,7 +1392,7 @@ class XPDF extends FPDF
      * @param mixed $default
      * @return mixed
      */
-    protected function _Property(\stdClass $obj, string $strName, $default='')
+    protected function property(\stdClass $obj, string $strName, $default='')
     {
         $value = $default; 
         if (property_exists($obj, $strName)) {
@@ -1432,7 +1405,7 @@ class XPDF extends FPDF
      * @param string $strText
      * @return string
      */
-    protected function _ConvText(string $strText) : string
+    protected function convText(string $strText) : string
     {
         // $strCharset = mb_detect_encoding($strText);
         if ($this->strCharset != 'UTF-8') {
@@ -1447,7 +1420,7 @@ class XPDF extends FPDF
      * @param int $iFormat
      * @return string
      */
-    protected function _FormatValue($value, int $iFormat) : string
+    protected function formatValue($value, int $iFormat) : string
     {
         $strValue = strval($value);
         if (($iFormat & self::FLAG_NO_ZERO) && floatval($value) != 0.0) {
@@ -1456,22 +1429,22 @@ class XPDF extends FPDF
         } else {
             switch ($iFormat & self::FLAG_FORMAT) {
                 case self::FLAG_CUR_SYMBOL:
-                    $strValue = $this->_FormatCurrency(floatval($value), true);
+                    $strValue = $this->formatCurrency(floatval($value), true);
                     break;
                 case self::FLAG_CUR_PLAIN:
-                    $strValue = $this->_FormatCurrency(floatval($value), false);
+                    $strValue = $this->formatCurrency(floatval($value), false);
                     break;
                 case self::FLAG_DATE:
-                    $strValue = $this->_FormatDate($value);
+                    $strValue = $this->formatDate($value);
                     break;
                 case self::FLAG_TIME:
-                    $strValue = $this->_FormatTime($value);
+                    $strValue = $this->formatTime($value);
                     break;
                 case self::FLAG_DATE_TIME: 
-                    $strValue = $this->_FormatDateTime($value);
+                    $strValue = $this->formatDateTime($value);
                     break;
                 case self::FLAG_NUMBER: 
-                    $strValue = $this->_FormatNumber(floatval($value));
+                    $strValue = $this->formatNumber(floatval($value));
                     break;
             }
         }
@@ -1486,7 +1459,7 @@ class XPDF extends FPDF
      * @param string $strSuffix
      * @return string
      */
-    protected function _FormatNumber(float $fltValue, ?int $iDecimals = null, ?string $strPrefix = null, ?string $strSuffix = null) : string
+    protected function formatNumber(float $fltValue, ?int $iDecimals = null, ?string $strPrefix = null, ?string $strSuffix = null) : string
     {
         if (!$this->bInvalidLocale) {
             $li = localeconv();
@@ -1513,7 +1486,7 @@ class XPDF extends FPDF
      * @param bool $bSymbol
      * @return string
      */
-    protected function _FormatCurrency(float $fltValue, bool $bSymbol=true) : string
+    protected function formatCurrency(float $fltValue, bool $bSymbol=true) : string
     {
         if (!$this->bInvalidLocale) {
             $li = localeconv();
@@ -1541,7 +1514,7 @@ class XPDF extends FPDF
      * @param mixed $Date       DateTime-Object, unix timestamp or valid Date string
      * @return string
      */
-    protected function _FormatDate($Date) : string
+    protected function formatDate($Date) : string
     {
         $strDate = '';
         if (is_object($Date) && get_class($Date) == 'DateTime') {
@@ -1562,7 +1535,7 @@ class XPDF extends FPDF
      * @param mixed $Time       DateTime-Object, unix timestamp or valid Time string
      * @return string
      */
-    protected function _FormatTime($Time) : string
+    protected function formatTime($Time) : string
     {
         $strTime = '';
         if (is_object($Time) && get_class($Time) == 'DateTime') {
@@ -1582,7 +1555,7 @@ class XPDF extends FPDF
      * @param mixed $DT     DateTime-Object, unix timestamp or valid DateTime string
      * @return string
      */
-    protected function _FormatDateTime($DT) : string
+    protected function formatDateTime($DT) : string
     {
         $strDT = '';
         if (is_object($DT) && get_class($DT) == 'DateTime') {
@@ -1601,87 +1574,12 @@ class XPDF extends FPDF
      * @param string $strText
      * @return string
      */
-    protected function _ReplacePlaceholder(string $strText) : string
+    protected function replacePlaceholder(string $strText) : string
     {
         $strText = str_replace("{D}", strftime('%x'), $strText);
         $strText = str_replace("{T}", strftime('%X'), $strText);
         $strText = str_replace("{PN}", strval($this->PageNo()), $strText);
         
         return $strText;
-    }
-    
-    protected function _putbookmarks() : void
-    {
-        $nb = count($this->outlines);
-        if( $nb==0 ) {
-            return;
-        }
-        $lru = array();
-        $level = 0;
-        foreach ($this->outlines as $i => $o) {
-            if ($o['l']>0) {
-                $parent = $lru[$o['l'] - 1];
-                // Set parent and last pointers
-                $this->outlines[$i]['parent'] = $parent;
-                $this->outlines[$parent]['last'] = $i;
-                if ($o['l'] > $level) {
-                    // Level increasing: set first pointer
-                    $this->outlines[$parent]['first'] = $i;
-                }
-            }
-            else
-                $this->outlines[$i]['parent'] = $nb;
-            if ($o['l'] <= $level && $i > 0) {
-                // Set prev and next pointers
-                $prev = $lru[$o['l']];
-                $this->outlines[$prev]['next'] = $i;
-                $this->outlines[$i]['prev'] = $prev;
-            }
-            $lru[$o['l']] = $i;
-            $level = $o['l'];
-        }
-        // Outline items
-        $n = $this->n+1;
-        foreach ($this->outlines as $i=>$o) {
-            $this->_newobj();
-            $this->_put('<</Title ' . $this->_textstring($o['t']));
-            $this->_put('/Parent ' . ($n + $o['parent']) . ' 0 R');
-            if (isset($o['prev'])) {
-                $this->_put('/Prev ' . ($n + $o['prev']) . ' 0 R');
-            }
-            if (isset($o['next'])) {
-                $this->_put('/Next ' . ($n + $o['next']) . ' 0 R');
-            }
-            if (isset($o['first'])) {
-                $this->_put('/First ' . ($n + $o['first']) . ' 0 R');
-            }
-            if (isset($o['last'])) {
-                $this->_put('/Last ' . ($n + $o['last']) . ' 0 R');
-            }
-            $this->_put(sprintf('/Dest [%d 0 R /XYZ 0 %.2F null]', $this->PageInfo[$o['p']]['n'], $o['y']));
-            $this->_put('/Count 0>>');
-            $this->_put('endobj');
-        }
-        // Outline root
-        $this->_newobj();
-        $this->outlineRoot = $this->n;
-        $this->_put('<</Type /Outlines /First ' . $n . ' 0 R');
-        $this->_put('/Last ' . ($n+$lru[0]) . ' 0 R>>');
-        $this->_put('endobj');
-    }
-    
-    protected function _putresources() : void
-    {
-        parent::_putresources();
-        $this->_putbookmarks();
-    }
-
-    protected function _putcatalog() : void
-    {
-        parent::_putcatalog();
-        if (count($this->outlines) > 0) {
-            $this->_put('/Outlines '.$this->outlineRoot.' 0 R');
-            $this->_put('/PageMode /UseOutlines');
-        }
     }
 }

@@ -111,7 +111,7 @@ class ExampleXPDF extends XPDF
                 if (floatval($row['weight']) != 0) {
                     $fltPricePerKg = floatval($row['price']) / floatval($row['weight']);;
                 }
-                $strCol = $this->_FormatCurrency($fltPricePerKg, true);
+                $strCol = $this->formatCurrency($fltPricePerKg, true);
                 break;
             default:
                 // very important to call parent class !!
