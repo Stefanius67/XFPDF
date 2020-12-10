@@ -1246,7 +1246,7 @@ class XPDF extends FPDF
     {
         // calc totals if enabled
         if ($this->bCalcTotals && $this->isTotalsCalcCol($iCol)) {
-            if (is_numeric($value) || is_float($value)) {
+            if (is_numeric($value)) {
                 $this->aTotals[$iCol] += $value;
                 $this->aSubTotals[$iCol] += $value;
             }
@@ -1267,7 +1267,7 @@ class XPDF extends FPDF
      * @param int $iCol
      * @param string $strImage
      */
-    protected function drawImageCol(int $iCol, string $strImage, $bFill) : void
+    protected function drawImageCol(int $iCol, string $strImage, bool $bFill) : void
     {
         $fltTop = $this->getY();
         $fltLeft = $this->getX();
