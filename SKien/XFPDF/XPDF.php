@@ -85,17 +85,17 @@ class XPDF extends FPDF
     /** @var string pagefooter  */
     protected string $strPageFooter;
     /** @var XPDFFont font to use in header of the document */
-    protected ?XPDFFont $fontHeader;
+    protected XPDFFont $fontHeader;
     /** @var XPDFFont font to use for subject in the header of the document */
-    protected ?XPDFFont $fontSubject;
+    protected XPDFFont $fontSubject;
     /** @var XPDFFont font to use in footer of the document */
-    protected ?XPDFFont $fontFooter;
+    protected XPDFFont $fontFooter;
     /** @var XPDFFont font to use in col headers of the grid    */
-    protected ?XPDFFont $fontColHeader;
+    protected XPDFFont $fontColHeader;
     /** @var XPDFFont font to use in sub headers of the grid    */
-    protected ?XPDFFont $fontSubHeader;
+    protected XPDFFont $fontSubHeader;
     /** @var XPDFFont font to use in rows of a grid */
-    protected ?XPDFFont $fontRows;
+    protected XPDFFont $fontRows;
     /** @var string textcolor to use in header of the document  */
     protected string $strHeaderTextColor = '#000000';
     /** @var string textcolor to use in footer of the document  */
@@ -1064,19 +1064,15 @@ class XPDF extends FPDF
             $wFlags = $this->aColFlags[$i];
             $bFill = $this->bStripped && (($this->iRow % 2) == 0);
             
-            // calc totals if enabled
-            if ($this->bCalcTotals && ($wFlags & self::FLAG_TOTALS_CALC) != 0) {
-                if (is_numeric($row[$field]) || is_float($row[$field])) {
-                    $this->aTotals[$i] += $row[$field]; 
-                    $this->aSubTotals[$i] += $row[$field]; 
-                }
+            // calc totals
+            if (isset($row[$field])) {
+                $this->calcTotals($i, $row[$field]);
             }
         
             // save for restore, if changed for current col
             $a = $this->saveSettings();
         
             if (is_numeric($field)) {
-                // get value from derived class
                 $strCell = $this->col($field, $row, $bFill);
             } else {
                 // directly get value from row data
@@ -1087,35 +1083,12 @@ class XPDF extends FPDF
                 }
                 $strCell = $this->formatValue($strCell, $wFlags);
             }
-            $link = '';
-            if (($wFlags & self::FLAG_INT_LINK) != 0) {
-                $link = $this->internalLink($i, $row);
-                $this->setFont('', 'U');
-                $this->selectTextColor($this->strLinkTextColor);
-            }
                     
-            $iWidth = $this->aColWidth[$i];
-            $strAlign = $this->aColAlign[$i];
-            if (($wFlags & self::FLAG_IMAGE) != 0) {
-                $fltTop = $this->getY();
-                $fltLeft = $this->getX();
-                $fltHeight = 0;
-                $fltWidth = 0;
-                if (isset($this->aImgInfo[$i])) {
-                    $fltTop += $this->aImgInfo[$i]['fltTop'];
-                    $fltLeft += $this->aImgInfo[$i]['fltLeft'];
-                    if ($this->aImgInfo[$i]['fltHeight'] > 0) {
-                        $fltHeight = $this->aImgInfo[$i]['fltHeight'];
-                    }
-                    if ($this->aImgInfo[$i]['fltWidth'] > 0) {
-                        $fltWidth = $this->aImgInfo[$i]['fltWidth'];
-                    }
-                }
-                $this->cell($iWidth, $this->fltLineHeight, '', $this->border, 0, $strAlign, $bFill, $link);
-                $this->image($strCell, $fltLeft, $fltTop, $fltWidth, $fltHeight);
+            if ($this->isImageCol($i)) {
+                $this->drawImageCol($i, $strCell, $bFill);
             } else {
-                $strCell = $this->convText($strCell);
-                $this->cell($iWidth, $this->fltLineHeight, $strCell, $this->border, 0, $strAlign, $bFill, $link);
+                $link = $this->getColLink($i, $row);
+                $this->cell($this->aColWidth[$i], $this->fltLineHeight, $this->convText($strCell), $this->border, 0, $this->aColAlign[$i], $bFill, $link);
             }
                 
             $this->restoreSettings($a);
@@ -1263,6 +1236,56 @@ class XPDF extends FPDF
         }
         return $fltWidth;
     }
+
+    /**
+     * Calculate totals for given col.
+     * @param int $iCol
+     * @param int|float $value
+     */
+    protected function calcTotals(int $iCol, $value) : void
+    {
+        // calc totals if enabled
+        if ($this->bCalcTotals && $this->isTotalsCalcCol($iCol)) {
+            if (is_numeric($value) || is_float($value)) {
+                $this->aTotals[$iCol] += $value;
+                $this->aSubTotals[$iCol] += $value;
+            }
+        }
+    }
+    /**
+     * Check, if requested col is iamge col.
+     * @param int $iCol
+     * @return bool
+     */
+    protected function isImageCol(int $iCol) : bool
+    {
+        return ($this->aColFlags[$iCol] & self::FLAG_IMAGE) != 0;
+    }
+    
+    /**
+     * Draw the image for a image col.
+     * @param int $iCol
+     * @param string $strImage
+     */
+    protected function drawImageCol(int $iCol, string $strImage, $bFill) : void
+    {
+        $fltTop = $this->getY();
+        $fltLeft = $this->getX();
+        $fltHeight = 0;
+        $fltWidth = 0;
+        if (isset($this->aImgInfo[$iCol])) {
+            $fltTop += $this->aImgInfo[$iCol]['fltTop'];
+            $fltLeft += $this->aImgInfo[$iCol]['fltLeft'];
+            if ($this->aImgInfo[$iCol]['fltHeight'] > 0) {
+                $fltHeight = $this->aImgInfo[$iCol]['fltHeight'];
+            }
+            if ($this->aImgInfo[$iCol]['fltWidth'] > 0) {
+                $fltWidth = $this->aImgInfo[$iCol]['fltWidth'];
+            }
+        }
+        $this->cell($this->aColWidth[$iCol], $this->fltLineHeight, '', $this->border, 0, 'C', $bFill);
+        $this->image($strImage, $fltLeft, $fltTop, $fltWidth, $fltHeight);
+    }
     
     /**
      * Hook to hide a row dependend on row data.
@@ -1273,6 +1296,24 @@ class XPDF extends FPDF
     protected function isRowVisible(/** @scrutinizer ignore-unused */ array $row) : bool
     {
         return true;
+    }
+    
+    /**
+     * Get link information for requested col.
+     * Set text color and underline style if col contains link
+     * @param int $iCol
+     * @param array $row
+     * @return string
+     */
+    protected function getColLink(int $iCol, array $row) : string
+    {
+        $strLink = '';
+        if (($this->aColFlags[$iCol] & self::FLAG_INT_LINK) != 0) {
+            $strLink = $this->internalLink($iCol, $row);
+            $this->setFont('', 'U');
+            $this->selectTextColor($this->strLinkTextColor);
+        }
+        return $strLink;
     }
     
     /**
