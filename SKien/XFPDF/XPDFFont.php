@@ -17,23 +17,23 @@ namespace SKien\XFPDF;
  */
 class XPDFFont
 {
-	/** @var string fontname	 */
-	public string $strFontname;
-	/** @var int size	 */
-	public int $iSize;
-	/** @var string style	 */
-	public string $strStyle;
-	
-	/**
-	 * Creates a Font-object
-	 * @param string $strFontname
-	 * @param string $strStyle		'B', 'I' or 'BI'
-	 * @param int $iSize
-	 */
-	function __construct(string $strFontname, string $strStyle, int $iSize)
-	{
-		$this->strFontname = $strFontname;
-		$this->strStyle = $strStyle;
-		$this->iSize = $iSize;
-	}
+    /** @var string fontname	 */
+    public string $strFontname;
+    /** @var int size	 */
+    public int $iSize;
+    /** @var string style	 */
+    public string $strStyle;
+    
+    /**
+     * Creates a Font-object
+     * @param string $strFontname
+     * @param string $strStyle		'B', 'I' or 'BI'
+     * @param int $iSize
+     */
+    function __construct(string $strFontname, string $strStyle, int $iSize)
+    {
+        $this->strFontname = $strFontname;
+        $this->strStyle = $strStyle;
+        $this->iSize = $iSize;
+    }
 }

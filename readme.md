@@ -2,16 +2,18 @@
 
  ![Latest Stable Version](https://img.shields.io/badge/release-v1.2.0-brightgreen.svg)
  ![License](https://img.shields.io/packagist/l/gomoob/php-pushwoosh.svg) 
- [![Donate](https://img.shields.io/static/v1?label=Donate&message=PayPal&color=orange)](https://www.paypal.me/SKientzler/5.00EUR)
- ![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)]
+ [![Donate](https://img.shields.io/static/v1?label=donate&message=PayPal&color=orange)](https://www.paypal.me/SKientzler/5.00EUR)
+ ![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)
  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Stefanius67/XFPDF/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/Stefanius67/XFPDF/?branch=main)
  
 ----------
 ## Dependency
-this package contains the latest version of FPDF (Version 1.82 from 2019-12-07) 
-
-If required, the latest version can be obtained from 
-http://www.fpdf.org/
+this package contains a modified version of FPDF (based on Version 1.82 from 2019-12-07)
+with following changes:
+- PHP 7.4 typehinting
+- phpDoc comments (content from the FPDF-Manual at http://www.fpdf.org/)
+- PSR coding style
+- contains the bookmark extension
 
 ## Overview
 

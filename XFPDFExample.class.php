@@ -22,7 +22,7 @@ class ExampleXPDF extends XPDF
      * define table columns
      * @param string $orientation
      */
-    public function __construct(string $orientation='P') 
+    public function __construct(string $orientation = 'P') 
     {
         // first call parent constructor for general initialization
         parent::__construct($orientation);
@@ -46,14 +46,14 @@ class ExampleXPDF extends XPDF
         $this->setPageFooter("Page: {PN}/{NP}\tAuthor: S.Kien\t{D} {T}");
         
         // now we define the columns of our report
-        $this->addCol('Row',            10, 'R', XPDF::COL_ROW_NR,     XPDF::FLAG_TOTALS_TEXT);
-        $this->addCol('Date',           35, 'C', 'date',               XPDF::FLAG_DATE);
-        $this->addCol('Text',           -1, 'L', 'text');
-        $this->addCol('Grp.',           12, 'C', self::MY_GRP_COL);
-        $this->addCol('Weight',         20, 'R', 'weight',             XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
-        $iImgCol = $this->addCol(-1,     8, 'C', self::MY_IMAGE_COL,   XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
-        $this->addCol('Price',          25, 'R', 'price',              XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
-        $this->addCol('Cost per kg',    25, 'R', self::MY_CALC_COL,    XPDF::FLAG_TOTALS_EMPTY);
+        $this->addCol('Row', 10, 'R', XPDF::COL_ROW_NR, XPDF::FLAG_TOTALS_TEXT);
+        $this->addCol('Date', 35, 'C', 'date', XPDF::FLAG_DATE);
+        $this->addCol('Text', -1, 'L', 'text');
+        $this->addCol('Grp.', 12, 'C', self::MY_GRP_COL);
+        $this->addCol('Weight', 20, 'R', 'weight', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
+        $iImgCol = $this->addCol(-1, 8, 'C', self::MY_IMAGE_COL, XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
+        $this->addCol('Price', 25, 'R', 'price', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
+        $this->addCol('Cost per kg', 25, 'R', self::MY_CALC_COL, XPDF::FLAG_TOTALS_EMPTY);
         
         // enable the totals/pagetotals and carry-over functionality
         $this->enableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
@@ -67,7 +67,7 @@ class ExampleXPDF extends XPDF
         $this->setNumberFormat(1, '', ' kg');
         
         // and set meassuring for the image col
-        $this->setColImageInfo($iImgCol, 1.5, 2.5, 3 );
+        $this->setColImageInfo($iImgCol, 1.5, 2.5, 3);
     }
     
     /**
@@ -88,7 +88,7 @@ class ExampleXPDF extends XPDF
         $strCol = '';
         switch ($iCol) {
             case self::MY_GRP_COL:
-                $aValues = array( '', 'Grp. A', 'Grp. B', 'Grp. C', 'Grp. D');
+                $aValues = array('', 'Grp. A', 'Grp. B', 'Grp. C', 'Grp. D');
                 if ($row['grp_id'] > 0 && $row['grp_id'] <= 4) {
                     $strCol = $aValues[$row['grp_id']];
                 }
@@ -109,7 +109,7 @@ class ExampleXPDF extends XPDF
             case self::MY_CALC_COL:
                 $fltPricePerKg = 0.0;
                 if (floatval($row['weight']) != 0) {
-                    $fltPricePerKg = floatval($row['price']) / floatval($row['weight']);;
+                    $fltPricePerKg = floatval($row['price']) / floatval($row['weight']);
                 }
                 $strCol = $this->formatCurrency($fltPricePerKg, true);
                 break;
@@ -139,7 +139,7 @@ class ExampleXPDF extends XPDF
         // for grouping
         $date = strtotime($row['date']);
         $strMonth = date('Y-m', $date);
-        if ( $this->strMonth != $strMonth) {
+        if ($this->strMonth != $strMonth) {
             // first row we have no subtotals...
             if ($this->strMonth != '') {
                 $this->endGroup();

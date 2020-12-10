@@ -634,7 +634,7 @@ class XPDF extends FPDF
      * @see XPDF::InitGrid()
      * @param int $iTotals  combination of 
      */
-    public function enableTotals(int $iTotals=self::TOTALS) : void
+    public function enableTotals(int $iTotals = self::TOTALS) : void
     {
         $this->bCalcTotals = ($iTotals & self::TOTALS) != 0;
         $this->bPageTotals = ($iTotals & self::PAGE_TOTALS) != 0;
@@ -829,7 +829,7 @@ class XPDF extends FPDF
      */
     public function selectDrawColor(string $strColor) : void
     {
-        $r=0; $g=0; $b=0;
+        $r = 0; $g = 0; $b = 0;
         $this->getRGB($strColor, $r, $g, $b);
         $this->setDrawColor($r, $g, $b);
     }
@@ -1240,7 +1240,7 @@ class XPDF extends FPDF
     /**
      * Calculate totals for given col.
      * @param int $iCol
-     * @param int|float $value
+     * @param mixed $value
      */
     protected function calcTotals(int $iCol, $value) : void
     {
@@ -1426,7 +1426,7 @@ class XPDF extends FPDF
         // Restore line width
         if ($this->LineWidth != $a['lw']) {
             $this->LineWidth = $a['lw'];
-            $this->out(sprintf( '%.2F w', $a['lw'] * $this->k));
+            $this->out(sprintf('%.2F w', $a['lw'] * $this->k));
         }
         // Restore font
         if (($a['family'] != $this->FontFamily) ||
