@@ -846,7 +846,7 @@ class FPDF
         $style = strtoupper($style);
         if (strpos($style, 'U') !== false) {
             $this->underline = true;
-            $style = str_replace('U','',$style);
+            $style = str_replace('U', '', $style);
         } else {
             $this->underline = false;
         }
@@ -2729,15 +2729,15 @@ class FPDF
                 }
             } else {
                 $this->outlines[$i]['parent'] = $nb;
-                if ($o['l'] <= $level && $i > 0) {
-                    // Set prev and next pointers
-                    $prev = $lru[$o['l']];
-                    $this->outlines[$prev]['next'] = $i;
-                    $this->outlines[$i]['prev'] = $prev;
-                }
-                $lru[$o['l']] = $i;
-                $level = $o['l'];
             }
+            if ($o['l'] <= $level && $i > 0) {
+                // Set prev and next pointers
+                $prev = $lru[$o['l']];
+                $this->outlines[$prev]['next'] = $i;
+                $this->outlines[$i]['prev'] = $prev;
+            }
+            $lru[$o['l']] = $i;
+            $level = $o['l'];
         }
         // Outline items
         $n = $this->n + 1;
