@@ -11,9 +11,11 @@
 this package contains a modified version of FPDF (based on Version 1.82 from 2019-12-07)
 with following changes:
 - PHP 7.4 typehinting
+- integrated the bookmark extension from http://www.fpdf.org/
 - phpDoc comments (content from the FPDF-Manual at http://www.fpdf.org/)
-- PSR coding style
-- contains the bookmark extension
+- PSR coding style (camel case methods, spacing, indentation, brackets)
+- namespace for PSR-4 autoloading
+- some fixes according to phpStan/scrutinizer inspections
 
 ## Overview
 
