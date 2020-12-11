@@ -246,7 +246,7 @@ class XPDF extends FPDF
      * <br/>
      * Can be controled through JSON-Format in InitGrid()
      * @param string $strCharset
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @link http://www.php.net/manual/en/function.iconv.php
      */
     public function setCharset(string $strCharset) : void 
@@ -262,7 +262,7 @@ class XPDF extends FPDF
      * <br/>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
      * @param string $strLocale
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @link http://www.php.net/manual/en/function.setlocale.php
      */
     public function setLocale(string $strLocale) : void 
@@ -321,11 +321,11 @@ class XPDF extends FPDF
     /**
      * Set logo printed in the document header.
      * The logo is printed right-aligned in the header, and by default,  the logo will be 
-     * scaled to a height of 8mm. Another height can be set with XPDF::SetLogoHeight(). <br/>
-     * For convinience, the loge can be set directly within XPDF::SetPageHeader().
+     * scaled to a height of 8mm. Another height can be set with XPDF::setLogoHeight(). <br/>
+     * For convinience, the loge can be set directly within XPDF::setPageHeader().
      * @param string $strLogo  image file to print.
-     * @see XPDF::SetLogoHeight()
-     * @see XPDF::SetPageHeader()
+     * @see XPDF::setLogoHeight()
+     * @see XPDF::setPageHeader()
      */
     public function setLogo(string $strLogo) : void
     {
@@ -425,7 +425,7 @@ class XPDF extends FPDF
      * <br/>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
      * @param string $strFormatD
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @link http://www.php.net/manual/en/function.strftime.php
      */
     public function setDateFormat(string $strFormatD) : void 
@@ -439,7 +439,7 @@ class XPDF extends FPDF
      * <br/>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
      * @param string $strFormatT
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @link http://www.php.net/manual/en/function.strftime.php
      */
     public function setTimeFormat(string $strFormatT) : void
@@ -453,7 +453,7 @@ class XPDF extends FPDF
      * <br/>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
      * @param string $strFormatDT
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @link http://www.php.net/manual/en/function.strftime.php
      */
     public function setDateTimeFormat(string $strFormatDT) : void
@@ -469,7 +469,7 @@ class XPDF extends FPDF
      * @param int $iDecimals
      * @param string $strPrefix
      * @param string $strSuffix
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      */
     public function setNumberFormat(int $iDecimals, string $strPrefix = '', string $strSuffix = '') : void
     {
@@ -481,7 +481,7 @@ class XPDF extends FPDF
     /**
      * Set font for page header.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -494,7 +494,7 @@ class XPDF extends FPDF
     /**
      * Set font for subject in the page header.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -507,7 +507,7 @@ class XPDF extends FPDF
     /**
      * Set font for page footer.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -520,7 +520,7 @@ class XPDF extends FPDF
     /**
      * Set font for col headers.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -533,7 +533,7 @@ class XPDF extends FPDF
     /**
      * Set font for sub headers.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -546,7 +546,7 @@ class XPDF extends FPDF
     /**
      * Set font for data rows.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strFontname
      * @param string $strStyle
      * @param int $iSize
@@ -560,7 +560,7 @@ class XPDF extends FPDF
     /**
      * Set lineheight.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param float $fltLineHeight  lineheight in mm
      */
     public function setLineHeight(float $fltLineHeight) : void 
@@ -571,7 +571,7 @@ class XPDF extends FPDF
     /**
      * Set colors for text and drawing in the pageheader.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strTextColor
      * @param string $strDrawColor
      */
@@ -584,7 +584,7 @@ class XPDF extends FPDF
     /**
      * Set colors for text and drawing in the colheader.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strTextColor
      * @param string $strFillColor
      */
@@ -597,7 +597,7 @@ class XPDF extends FPDF
     /**
      * Set colors for text and drawing in the grid.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strTextColor
      * @param string $strDrawColor
      * @param string $strFillColor
@@ -614,7 +614,7 @@ class XPDF extends FPDF
     /**
      * Set colors for text and drawing in the pagefooter.
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strTextColor
      * @param string $strDrawColor
      */
@@ -631,7 +631,7 @@ class XPDF extends FPDF
      * <li> subtotals at end of each page (self::PAGE_TOTALS) </li>
      * <li> carry over at beginning of new page (self::CARRY_OVER) </li></ul>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param int $iTotals  combination of 
      */
     public function enableTotals(int $iTotals = self::TOTALS) : void
@@ -651,7 +651,7 @@ class XPDF extends FPDF
      * <li>  {PN} -> current page  </li>
      * <li>  {PN-1} -> previous page </li></ul>
      * <b>!! Can be controled/overwritten through JSON-Format in InitGrid() !!</b>
-     * @see XPDF::InitGrid()
+     * @see XPDF::initGrid()
      * @param string $strTotals
      * @param string $strPageTotals
      * @param string $strCarryOver
@@ -665,6 +665,24 @@ class XPDF extends FPDF
         if (strlen($strCarryOver) > 0) {
             $this->strCarryOver = $strCarryOver;
         }
+    }
+    
+    /**
+     * reset coldefinitions
+     */
+    public function resetCols() : void
+    {
+        $this->iMaxCol = -1;
+        $this->aColWidth = array();
+        $this->aColAlign = array();
+        $this->aColFlags = array();
+        $this->aColField = array();
+        $this->iMaxColHeader = -1;
+        $this->aColHeader = array();
+        $this->aColSpan = array();
+        $this->aTotalsColSpan = array();
+        $this->aSubTotals = array();
+        $this->aTotals = array();
     }
     
     /**
@@ -876,7 +894,7 @@ class XPDF extends FPDF
     /**
      * Print pageheader / logo / colheaders.
      * {@inheritDoc}
-     * @see \OPlathey\FPDF\FPDF::Header()
+     * @see \OPlathey\FPDF\FPDF::header()
      */
     public function header() : void
     {
@@ -930,7 +948,7 @@ class XPDF extends FPDF
     /**
      * Print pagefooter.
      * {@inheritDoc}
-     * @see \OPlathey\FPDF\FPDF::Footer()
+     * @see \OPlathey\FPDF\FPDF::footer()
      */
     public function footer() : void 
     {
@@ -1303,9 +1321,9 @@ class XPDF extends FPDF
      * Set text color and underline style if col contains link
      * @param int $iCol
      * @param array $row
-     * @return string
+     * @return string|int
      */
-    protected function getColLink(int $iCol, array $row) : string
+    protected function getColLink(int $iCol, array $row)
     {
         $strLink = '';
         if (($this->aColFlags[$iCol] & self::FLAG_INT_LINK) != 0) {
