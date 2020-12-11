@@ -64,7 +64,7 @@ class ExampleXPDF extends XPDF
 We design the report in the class constructor. First of all, the Constructor of the parent 
 class must be called for initialization.
 ```php	
-	public function __construct(string $orientation='P') 
+	public function __construct(string $orientation = 'P') 
 	{
 		parent::__construct($orientation);
 		...
@@ -73,37 +73,37 @@ class must be called for initialization.
 ### Fonts/colors, logo and footer
 ```php	
 	// ...
-	$this->InitGrid('xfpdf-sample.json');
+	$this->initGrid('xfpdf-sample.json');
         
 	// define page header and -footer
-	$this->SetLogo('images/elephpant.png');
-	$this->SetLogoHeight(9.0);
-	$this->AddPageFooter("Seite: {PN}/{NP}\tAuthor: S.Kien\t{D} {T}");
+	$this->setLogo('images/elephpant.png');
+	$this->setLogoHeight(9.0);
+	$this->addPageFooter("Seite: {PN}/{NP}\tAuthor: S.Kien\t{D} {T}");
 ```
 
 #### Fonts and colors
 The fonts and colors can be set using the different methods `XPDF::SetXXXFont()`
-and `XPDF::SetXXXColors()`.
+and `XPDF::setXXXColors()`.
 
 However, it is faster and easier if all settings are made in a JSON file.
 (This can also be used multiple times for standardized reports).
-This file can be passed to the `XPDF::InitGrid()` method.
+This file can be passed to the `XPDF::initGrid()` method.
 ```php	
-	$this->InitGrid('xfpdf-sample.json');
+	$this->initGrid('xfpdf-sample.json');
 ```
 The structure of this JSON file is self-explanatory and can be found in the example file used here.
 
 #### Logo
 ```php	
-	$this->SetLogo('images/elephpant.png');
-	$this->SetLogoHeight(9.0);
+	$this->setLogo('images/elephpant.png');
+	$this->setLogoHeight(9.0);
 ```
 The logo is printed right-aligned in the header. By default,  the logo will be scaled to a 
 height of 8mm. In the example we choose a height of 9mm for *our Elephpant*.
 
 #### Footer
 ```php	
-	$this->AddPageFooter("Page: {PN}/{NP}\tAuthor: S.Kien\t{D}");
+	$this->addPageFooter("Page: {PN}/{NP}\tAuthor: S.Kien\t{D}");
 ```
 The page number is extended by the prefix *'Page:'*, centered is placed an author and 
 right-justified the date without time output.  
@@ -116,7 +116,7 @@ Following Placeholders are used:
 (default setting is: the page and total number of pages on the left and current date 
 and time on the right)  
 The date and time in the footer will be formatted according to the `localeconv ()` settings.
-> The locale Settings can be changed from the system default using the `XPDF::SetLocale()` method.
+> The locale Settings can be changed from the system default using the `XPDF::setLocale()` method.
 
 ### Column definitions of the example table
 #### Column description
@@ -178,35 +178,35 @@ The table in the example has 8 columns:
 #### ...and here the code for it
 
 ```php	
-    $this->AddCol('Row', 10, 'R', XPDF::COL_ROW_NR, XPDF::FLAG_TOTALS_TEXT);
-	$this->AddCol('Date', 35, 'C', 'date', XPDF::FLAG_DATE);
-	$this->AddCol('Text', -1, 'L', 'text');
-	$this->AddCol('Grp.', 12, 'C', self::MY_GRP_COL);
-	$this->AddCol('Weight', 20, 'R', 'weight', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
-	$iImgCol = $this->AddCol(-1,     8, 'C', self::MY_IMAGE_COL,   XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
-	$this->AddCol('Price', 25, 'R', 'price', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
-	$this->AddCol('Cost per Kg', 25, 'R', self::MY_CALC_COL, XPDF::FLAG_TOTALS_EMPTY);
+    $this->addCol('Row', 10, 'R', XPDF::COL_ROW_NR, XPDF::FLAG_TOTALS_TEXT);
+	$this->addCol('Date', 35, 'C', 'date', XPDF::FLAG_DATE);
+	$this->addCol('Text', -1, 'L', 'text');
+	$this->addCol('Grp.', 12, 'C', self::MY_GRP_COL);
+	$this->addCol('Weight', 20, 'R', 'weight', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
+	$iImgCol = $this->addCol(-1, 8, 'C', self::MY_IMAGE_COL, XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
+	$this->addCol('Price', 25, 'R', 'price', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
+	$this->addCol('Cost per Kg', 25, 'R', self::MY_CALC_COL, XPDF::FLAG_TOTALS_EMPTY);
         
 	// enable the totals/pagetotals and carry-over functionality
-	$this->EnableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
-	$this->SetTotalsText(
+	$this->enableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
+	$this->setTotalsText(
 		"My Totals over all:",
 		"Subtotal on Page {PN}:",
 		"Carry over from Page {PN-1}:");
 	
 	// set date and number formating.
-	$this->SetDateFormat('%a, %d.%m.%Y');
-	$this->SetNumberFormat(1, '', ' kg');
+	$this->setDateFormat('%a, %d.%m.%Y');
+	$this->setNumberFormat(1, '', ' kg');
 	
 	// and set meassuring for the image col
-	$this->SetColImageInfo($iImgCol, 1.5, 2.5, 3 );
+	$this->setColImageInfo($iImgCol, 1.5, 2.5, 3 );
 ```
 
 #### The individual lines of code explained in more detail
 
 ##### Column 1
 ```php	
-    $this->AddCol('Row', 10, 'R', XPDF::COL_ROW_NR, XPDF::FLAG_TOTALS_TEXT);
+    $this->addCol('Row', 10, 'R', XPDF::COL_ROW_NR, XPDF::FLAG_TOTALS_TEXT);
 ```
 -	The column ID `XPDF::COL_ROW_NR` defines the content of the column as an automatic line number.
 -	`XPDF::FLAG_TOTALS_TEXT` defines the output of the text for total lines in this column.
@@ -214,18 +214,18 @@ The table in the example has 8 columns:
 	
 ##### Column 2
 ```php	
-	AddCol('Date', 30, 'C', 'date', XPDF::FLAG_DATE);
+	addCol('Date', 30, 'C', 'date', XPDF::FLAG_DATE);
 ```
 -	The content of the element *'date'* of the line data is interpreted as a date value.  
 	Accepted values:
 	-	a ***DateTime*** object
 	-	an ***int*** as a UNIX timestamp
 	-	a ***string*** is tried to be parsed with `strtotime()`
--	With the `XPDF::FLAG_DATE` the column is formatted according to`SetDateFormat()`.
+-	With the `XPDF::FLAG_DATE` the column is formatted according to`setDateFormat()`.
 
 ##### Column 3
 ```php	
-	AddCol('Text', -1, 'L', 'text');
+	addCol('Text', -1, 'L', 'text');
 ```
 -	The content of the element *'text'* of the line data is used for output
 -	With a width of -1 the column is defined as a dynamic column. This gives the
@@ -233,7 +233,7 @@ The table in the example has 8 columns:
 	
 ##### Column 4
 ```php	
-	AddCol('Grp.', 12, 'C', self::MY_GRP_COL);
+	addCol('Grp.', 12, 'C', self::MY_GRP_COL);
 ```
 -	The self-defined unique column ID `self::MY_GRP_COL` ensures that the
 	method `Col()` is called, in which the desired content of the cell can be generated
@@ -241,7 +241,7 @@ The table in the example has 8 columns:
 	
 ##### Column 5
 ```php	
-	AddCol('Weight', 20, 'R', 'weight', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
+	addCol('Weight', 20, 'R', 'weight', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_NUMBER);
 ```
 -	The content of the element *'weight'* of the line data is interpreted as a numerical value.
 -	`XPDF::FLAG_TOTALS_CALC` indicates that a total will be calculated for this column.
@@ -249,39 +249,39 @@ The table in the example has 8 columns:
 	
 ##### Column 6
 ```php	
-	$iImgCol = $this->AddCol(-1,     8, 'C', self::MY_IMAGE_COL,   XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
+	$iImgCol = $this->addCol(-1, 8, 'C', self::MY_IMAGE_COL, XPDF::FLAG_IMAGE | XPDF::FLAG_TOTALS_EMPTY);
 ```
 -	A value of -1 as the column heading indicates that the column header is connected 
 	to the header of the previous column.
--	With the defined column ID `self::MY_IMAGE_COL` the method `Col()` is called, in which the
+-	With the defined column ID `self::MY_IMAGE_COL` the method `col()` is called, in which the
 	image to be displayed have to be set.
 -	So that a corresponding empty cell is output in a total line in this column, 
 	`XPDF::FLAG_TOTALS_EMPTY` must be set for this column after the previous defined sum column.
 	All succeeding columns will be connected until another total column appears or up to 
 	the end of the grid.
 -	The column index is saved in `$iImgCol` in order to be able to subsequently set 
-	image position and dimensions with `SetColImageInfo()`
+	image position and dimensions with `setColImageInfo()`
 	
 ##### Column 7
 ```php	
-	AddCol('Price', 25, 'R', 'price', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
+	addCol('Price', 25, 'R', 'price', XPDF::FLAG_TOTALS_CALC | XPDF::FLAG_CUR_SYMBOL);
 ```
 -	The content of the element *'price'* of the line data is interpreted as a numerical value.
 -	`XPDF::FLAG_TOTALS_CALC` indicates that a total will be calculated for this column
--	With `XPDF::FLAG_CUR_SYMBOL` the column is formatted according to `SetCurrencyFormat()`
+-	With `XPDF::FLAG_CUR_SYMBOL` the column is formatted according to `setCurrencyFormat()`
 
 ##### Column 8
 ```php	
-	AddCol('Cost per Kg', 25, 'C', self::MY_CALC_COL, XPDF::FLAG_TOTALS_EMPTY);
+	addCol('Cost per Kg', 25, 'C', self::MY_CALC_COL, XPDF::FLAG_TOTALS_EMPTY);
 ```
 -	In order to calculate a value from the row data, the column is given a column ID
-	(`self::MY_CALC_COL`), which also calls the `Col()` method, in which the desired 
+	(`self::MY_CALC_COL`), which also calls the `col()` method, in which the desired 
 	content is calculated and formatted.
 -	`XPDF::FLAG_TOTALS_EMPTY` is needed for a correct output of the Total lines.
 
 ##### Activate the output of totals lines.
 ```php	
-	$this->EnableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
+	$this->enableTotals(XPDF::TOTALS | XPDF::PAGE_TOTALS | XPDF::CARRY_OVER);
 ```
 - `XPDF::TOTALS`: Total amount at the end of the document.
 - `XPDF::PAGE_TOTALS`: Subtotal at end of every page.
@@ -289,7 +289,7 @@ The table in the example has 8 columns:
 
 ##### Set the texts for the various totals lines.
 ```php	
-	$this->SetTotalsText(
+	$this->setTotalsText(
 		"My Totals over all:",
 		"Subtotal on Page {PN}:",
 		"Carry over from Page {PN-1}:");
@@ -299,25 +299,25 @@ The text can contain the placeholders *'{PN}'* for the current page and *'{PN-1}
 
 ##### Set the output format for all Date columns.
 ```php	
-	$this->SetDateFormat('%a, %d.%m.%Y');
+	$this->setDateFormat('%a, %d.%m.%Y');
 ```
 The format string must comply with the guidelines of the PHP function 'strftime()'.  
 See https://www.php.net/manual/en/function.strftime.php
 
 ##### Set the output format for all Numeric columns.
 ```php	
-	$this->SetNumberFormat(1, '', ' kg');
+	$this->setNumberFormat(1, '', ' kg');
 ```
 -	One decimal place.
 -	No prefix.
 -	Extension * 'kg' *.
 
 Decimal and thousand separators are read from the `localeconv()` settings.
-> The locale Settings can ne changed from the system default using the `XPDF::SetLocale()` method.
+> The locale Settings can ne changed from the system default using the `XPDF::setLocale()` method.
 
 ##### Setting the size and position of the image in the symbol column
 ```php	
-	$this->SetColImageInfo($iImgCol, 1.5, 2.5, 3 );
+	$this->setColImageInfo($iImgCol, 1.5, 2.5, 3 );
 ```
 - the column index that was saved when the column was created.
 -	position 1.5mm from the top of the line.
@@ -328,7 +328,7 @@ Decimal and thousand separators are read from the `localeconv()` settings.
 #### Generating the cell contents that are not directly contained in the row data
 If the content of a cell to be printed does not exist directly in the row data,
 a unique ID can be set for this column instead of the data field. The desired output
-have to be generated in the method `ExampleXPDF::Col()`.
+have to be generated in the method `ExampleXPDF::col()`.
 This is e.g. the case if
 -	the data contain a numeric ID and a corresponding text have to be printed
 -	a calculation result based on several values have to be printed
@@ -343,9 +343,9 @@ In the example, columns 4, 5 and 8 are generated internally.
 	const MY_CALC_COL = 3;
 ```
 Unique ID's are defined for these columns, which are used when the columns are
-created with `AddCol()`.
+created with `addCol()`.
 
-The processing is implemented in the `ExampleXPDF::Col()` method:
+The processing is implemented in the `ExampleXPDF::col()` method:
 ```php	
 	protected function Col(int $iCol, array $row, bool &$bFill) : string 
 	{
@@ -379,7 +379,7 @@ The processing is implemented in the `ExampleXPDF::Col()` method:
 				break;
 			default:
 				// very important to call parent class !!
-				$strCol = parent::Col($iCol, $row, $bFill);
+				$strCol = parent::col($iCol, $row, $bFill);
 				break;
 		}
 		return $strCol;
@@ -423,12 +423,12 @@ BEFORE the output of a new line.
 		// for grouping
 		$date = strtotime($row['date']);
 		$strMonth = date('Y-m', $date);
-		if ( $this->strMonth != $strMonth) {
+		if ($this->strMonth != $strMonth) {
 			// first row we have no subtotals...
 			if ($this->strMonth != '') {
-				$this->EndGroup();
+				$this->endGroup();
 			}
-			$this->StartGroup('Totals ' . strftime('%B %Y', $date) . ':', strftime('%B %Y', $date));
+			$this->startGroup('Totals ' . strftime('%B %Y', $date) . ':', strftime('%B %Y', $date));
 			$this->strMonth = $strMonth;
 		}
 		...
@@ -437,9 +437,9 @@ BEFORE the output of a new line.
 Comparing the month of the current row (`$row 'date']`) with the previous month stored 
 in `$this->strMonth`, it can be determined whether there is a change of month.  
 If the previous month is not an empty string (this is the case when printing the 
-first row...), the call `XPDF::EndGroup ()` prints the subtotal for the previous month 
+first row...), the call `XPDF::endGroup ()` prints the subtotal for the previous month 
 and resets the calculated values for next month.  
-Then the grouping for the new (or first) month is started with `XPDF::StartGroup()`. 
+Then the grouping for the new (or first) month is started with `XPDF::startGroup()`. 
 If no `strHeader` parameter is passed to this function, only the internal calculation 
 of the subtotals started again, but no subheading will be printed.  
 Finally, the new month is stored in the `strMonth` property.
@@ -451,11 +451,11 @@ understandably cannot be intercepted in `XPDF:PreRow()`, the method `XPDF :: End
 is overloaded for this purpose, which must always be called after all data has been 
 transferred.
 ```php
-	public function EndGrid() : void
+	public function endGrid() : void
 	{
 		// end last group for subtotals before we call the parent (!!! don't forget that!!)
-		$this->EndGroup();
-		parent::EndGrid();
+		$this->endGroup();
+		parent::endGrid();
 	}
 ```
 Here `XPDF::EndGroup()` is called one last time before further processing is passed 
@@ -468,12 +468,12 @@ before output or to add additional information and/or to insert a subheading for
 better identification.
 For this task the method `XPDF::PreRow()` will also be the proper place to do.
 ```php
-	protected function PreRow(array &$row) : string
+	protected function preRow(array &$row) : string
 	{
 		...
 		$strSubRow = '';
 		if ($this->iRow == 47) {
-			$strSubRow = '... next Row have been manipulated in ExampleXPDF::PreRow(array &$row)!';
+			$strSubRow = '... next Row have been manipulated in ExampleXPDF::preRow(array &$row)!';
 			$row['text'] = 'manipulated Rowdata!';
 		}
 		if ($this->iRow == 56) {
@@ -504,8 +504,8 @@ $pdf = new ExampleXPDF();
 $pdf = new ExampleXPDF();
 
 // set some file information
-$pdf->SetInfo('XFPDF', 'Example', 'PHP classes', 'Keyword1, Keyword2, ...');
-$pdf->SetPageHeader( 'Create PDF Table', 'using extpdf package from PHPClasses.org');
+$pdf->setInfo('XFPDF', 'Example', 'PHP classes', 'Keyword1, Keyword2, ...');
+$pdf->setPageHeader('Create PDF Table', 'using extpdf package from PHPClasses.org');
 ```
 With `SetInfo()`, file information is set that is displayed in the created document 
 under the document properties.
@@ -514,13 +514,13 @@ under the document properties.
 - *'PHP classes'*: Author
 - *'Keyword1, Keyword2, ...'*: Keywords
 
-`SetPageHeader()` sets the title and optionally a short description:
-- Title left-justified in the font specified with `XPDF::SetHeaderFont()`
-- the short description also left-justified in a new line in the font `XPDF::SetSubjectFont()`
+`setPageHeader()` sets the title and optionally a short description:
+- Title left-justified in the font specified with `XPDF::setHeaderFont()`
+- the short description also left-justified in a new line in the font `XPDF::setSubjectFont()`
 
 After all document settings have been made, the table can be generated:
 ```php	
-$pdf->Prepare();
+$pdf->prepare();
 
 $date = time();
 for ($iRow=1; $iRow <= 100; $iRow++) {
@@ -531,23 +531,23 @@ for ($iRow=1; $iRow <= 100; $iRow++) {
 		'price' => (rand(10, 2000) / 9),
 		'grp_id' => rand(1, 4)
 	);
-	$pdf->Row($row);
+	$pdf->row($row);
 	$date += 24 * 60 * 60;
 }
-$pdf->EndGrid();
+$pdf->endGrid();
 
-$pdf->CreatePDF('example');
+$pdf->createPDF('example');
 ```
 
 ### Start the table
 ```php	
-$pdf->Prepare();
+$pdf->prepare();
 ```
 This call starts the creation of the table.
 
 ### Transfer of the data
 ```php	
-for ($iRow=1; $iRow <= 100; $iRow++) {
+for ($iRow = 1; $iRow <= 100; $iRow++) {
 	$row = array(
 		'text' => 'Text in var Col, Line ' . $iRow,
 		'weight' => (rand(10, 500) / 10),
@@ -555,31 +555,31 @@ for ($iRow=1; $iRow <= 100; $iRow++) {
 		'price' => (rand(10, 2000) / 9),
 		'grp_id' => rand(1, 4)
 	);
-	$pdf->Row($row);
+	$pdf->row($row);
 	$date += 24 * 60 * 60;
 }
 ```
 For the sake of simplicity, the line data in the example is generated in a for loop with 
-random values and transferred with `$pdf->Row($row)`. In practice, in most cases
+random values and transferred with `$pdf->row($row)`. In practice, in most cases
 the data will come from a database query or some other data source.
 This possibly looks like this:
 ```php	
 $db = new mysqli(...)
 $dbres = $db->query('some SQL query');
 while (($row = $dbres->fetch_array(MYSQLI_ASSOC) !== false) {
-    $pdf->Row($row);
+    $pdf->row($row);
 }
 ```
 
 ### Beenden der Tabelle
 ```php	
-$pdf->EndGrid();
+$pdf->endGrid();
 ```
 At the end of the table, this function is called, which, if necessary, generates 
 an end total and closes the table.
 
 ### Generate the PDF file
 ```php	
-$pdf->CreatePDF('example');
+$pdf->createPDF('example');
 ```
 The last step is to create the file.
