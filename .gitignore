@@ -2,3 +2,7 @@
 /.buildpath
 /.project
 /test/coverage/
+/MySqlInfo.php
+/MySqlInfoTable.php
+/mysqlinfotable.json
+/images/mysql_logo.png
