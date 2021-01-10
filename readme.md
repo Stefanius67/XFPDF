@@ -36,6 +36,9 @@ In addition to extensive column definitions such as
 
 the package offers the possibility to automatically insert totals, subtotals and page transfers.
 
+## Usage
+**See the blog post [here](https://www.phpclasses.org/blog/package/11553/post/1-PHP-PDF-Report-Generator-Example.html) for detailed description.**
+
 ## History
 ##### 2020-03-06	Version 1.00
   * initial Version
