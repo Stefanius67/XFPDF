@@ -34,11 +34,11 @@
 	"strPageTotals" : "",
 	"strCarryOver" : "",
 	
-	"strCharset" : "windows-1252//TRANSLIT",
-	"strLocale" : "en_US.utf8, en_US",
-	"strFormatDT" : "%c",
-	"strFormatD" : "%x",
-	"strFormatT" : "%X",
+	"strCharset" : "UTF-8",
+	"strLocale" : "de_DE.utf8, de_DE",
+	"strFormatDT" : "dd.MM.yyyy / HH:mm",
+	"strFormatD" : "EEE, dd.MM.yyyy",
+	"strFormatT" : "HH:mm",
 	"iNumberDecimals" : 2,
 	"strNumberPrefix" : null,
 	"strNumberSuffix" : "%"

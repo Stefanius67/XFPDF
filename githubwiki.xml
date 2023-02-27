@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<githubwiki>
+    <title>XFPDF Reportgenerator</title>
+
+    <paths>
+        <output>./wiki/XFPDF.wiki</output>
+    </paths>
+	
+	<source>
+		<path>SKien/XFPDF</path>
+		<path>OPlathey/FPDF</path>
+	</source>
+</githubwiki>

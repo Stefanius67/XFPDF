@@ -1,0 +1,1 @@
+php d:\DevTools\PHPStan\phpstan.phar analyse > phpstan.txt
